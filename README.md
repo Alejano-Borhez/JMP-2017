@@ -10,4 +10,4 @@ Source code for JMP program held in EPAM
 1. Clone a repo using `git clone https://github.com/Alejano-Borhez/JMP-2017.git`
 2. Go to app dir `cd JMP-2017`
 3. Run maven package goal `mvn clean package`
-4. Run application `java -jar {module}/{applicationName}.jar`
+4. Run application `java -jar {module}/target/{applicationName}.jar`
