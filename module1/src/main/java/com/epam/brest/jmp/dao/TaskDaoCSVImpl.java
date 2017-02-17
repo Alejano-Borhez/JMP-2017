@@ -139,15 +139,16 @@ public class TaskDaoCSVImpl implements TaskDao {
         assert properties != null;
         String path = properties.getProperty("save.path");
         File file = new File(System.getProperty("user.home"), path);
+        Path path1 = Paths.get(file.toURI());
         if (!file.exists()) {
             try {
-                Files.createDirectories(Paths.get(file.toURI()).getParent());
-                Files.createFile(Paths.get(file.toURI()));
+                Files.createDirectories(path1.getParent());
+                Files.createFile(path1);
             } catch (IOException e) {
                 LOGGER.info(e.getMessage());
             }
         }
-        return Paths.get(file.toURI());
+        return path1;
     }
 
     private void setProperties() {

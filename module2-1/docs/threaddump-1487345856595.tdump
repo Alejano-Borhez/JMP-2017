@@ -1,0 +1,258 @@
+2017-02-17 18:37:36
+Full thread dump Java HotSpot(TM) 64-Bit Server VM (25.60-b23 mixed mode):
+
+"RMI TCP Connection(2)-127.0.0.1" #20 daemon prio=9 os_prio=0 tid=0x00007f36b4007000 nid=0x6d5a runnable [0x00007f3700fca000]
+   java.lang.Thread.State: RUNNABLE
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:170)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:246)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:265)
+	- locked <0x000000076e46cff8> (a java.io.BufferedInputStream)
+	at java.io.FilterInputStream.read(FilterInputStream.java:83)
+	at sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:550)
+	at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:826)
+	at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$79(TCPTransport.java:683)
+	at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler$$Lambda$1/1785126418.run(Unknown Source)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:682)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+
+   Locked ownable synchronizers:
+	- <0x000000076dcdd260> (a java.util.concurrent.ThreadPoolExecutor$Worker)
+
+"JMX server connection timeout 19" #19 daemon prio=9 os_prio=0 tid=0x00007f36a805c000 nid=0x6d56 in Object.wait() [0x00007f37010cc000]
+   java.lang.Thread.State: TIMED_WAITING (on object monitor)
+	at java.lang.Object.wait(Native Method)
+	- waiting on <0x000000076df98888> (a [I)
+	at com.sun.jmx.remote.internal.ServerCommunicatorAdmin$Timeout.run(ServerCommunicatorAdmin.java:168)
+	- locked <0x000000076df98888> (a [I)
+	at java.lang.Thread.run(Thread.java:745)
+
+   Locked ownable synchronizers:
+	- None
+
+"RMI Scheduler(0)" #18 daemon prio=9 os_prio=0 tid=0x00007f36a8059800 nid=0x6d55 waiting on condition [0x00007f37011cd000]
+   java.lang.Thread.State: TIMED_WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x000000076dbbb980> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1093)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1067)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1127)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+
+   Locked ownable synchronizers:
+	- None
+
+"RMI TCP Connection(1)-127.0.0.1" #17 daemon prio=9 os_prio=0 tid=0x00007f36b4005800 nid=0x6d54 runnable [0x00007f37012cd000]
+   java.lang.Thread.State: RUNNABLE
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:170)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:246)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:265)
+	- locked <0x000000076df6b198> (a java.io.BufferedInputStream)
+	at java.io.FilterInputStream.read(FilterInputStream.java:83)
+	at sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:550)
+	at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:826)
+	at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$79(TCPTransport.java:683)
+	at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler$$Lambda$1/1785126418.run(Unknown Source)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:682)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+
+   Locked ownable synchronizers:
+	- <0x000000076dcdcbf0> (a java.util.concurrent.ThreadPoolExecutor$Worker)
+
+"RMI TCP Accept-0" #16 daemon prio=9 os_prio=0 tid=0x00007f36b00f9800 nid=0x6d52 runnable [0x00007f37013cf000]
+   java.lang.Thread.State: RUNNABLE
+	at java.net.PlainSocketImpl.socketAccept(Native Method)
+	at java.net.AbstractPlainSocketImpl.accept(AbstractPlainSocketImpl.java:409)
+	at java.net.ServerSocket.implAccept(ServerSocket.java:545)
+	at java.net.ServerSocket.accept(ServerSocket.java:513)
+	at sun.management.jmxremote.LocalRMIServerSocketFactory$1.accept(LocalRMIServerSocketFactory.java:52)
+	at sun.rmi.transport.tcp.TCPTransport$AcceptLoop.executeAcceptLoop(TCPTransport.java:400)
+	at sun.rmi.transport.tcp.TCPTransport$AcceptLoop.run(TCPTransport.java:372)
+	at java.lang.Thread.run(Thread.java:745)
+
+   Locked ownable synchronizers:
+	- None
+
+"Attach Listener" #14 daemon prio=9 os_prio=0 tid=0x00007f36d8001000 nid=0x6d4e waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+   Locked ownable synchronizers:
+	- None
+
+"DestroyJavaVM" #13 prio=5 os_prio=0 tid=0x00007f3718009800 nid=0x6d3a waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+   Locked ownable synchronizers:
+	- None
+
+"Thread-3" #12 prio=5 os_prio=0 tid=0x00007f37181ce000 nid=0x6d4b waiting for monitor entry [0x00007f3701f03000]
+   java.lang.Thread.State: BLOCKED (on object monitor)
+	at com.epam.brest.jmp.deadlock.FileWorker.run(FileWorker.java:37)
+	- waiting to lock <0x000000076cf75cc0> (a com.epam.brest.jmp.deadlock.FileResource)
+	- locked <0x000000076cf75db0> (a com.epam.brest.jmp.deadlock.FileResource)
+	- locked <0x000000076cf78f88> (a com.epam.brest.jmp.deadlock.FileWorker)
+	at java.lang.Thread.run(Thread.java:745)
+
+   Locked ownable synchronizers:
+	- None
+
+"Thread-2" #11 prio=5 os_prio=0 tid=0x00007f37181cc800 nid=0x6d4a waiting for monitor entry [0x00007f3702004000]
+   java.lang.Thread.State: BLOCKED (on object monitor)
+	at com.epam.brest.jmp.deadlock.FileWorker.run(FileWorker.java:37)
+	- waiting to lock <0x000000076cf75db0> (a com.epam.brest.jmp.deadlock.FileResource)
+	- locked <0x000000076cf75d60> (a com.epam.brest.jmp.deadlock.FileResource)
+	- locked <0x000000076cf78f10> (a com.epam.brest.jmp.deadlock.FileWorker)
+	at java.lang.Thread.run(Thread.java:745)
+
+   Locked ownable synchronizers:
+	- None
+
+"Thread-1" #10 prio=5 os_prio=0 tid=0x00007f37181ca800 nid=0x6d49 waiting for monitor entry [0x00007f3702105000]
+   java.lang.Thread.State: BLOCKED (on object monitor)
+	at com.epam.brest.jmp.deadlock.FileWorker.run(FileWorker.java:37)
+	- waiting to lock <0x000000076cf75d60> (a com.epam.brest.jmp.deadlock.FileResource)
+	- locked <0x000000076cf75d10> (a com.epam.brest.jmp.deadlock.FileResource)
+	- locked <0x000000076cf78e98> (a com.epam.brest.jmp.deadlock.FileWorker)
+	at java.lang.Thread.run(Thread.java:745)
+
+   Locked ownable synchronizers:
+	- None
+
+"Thread-0" #9 prio=5 os_prio=0 tid=0x00007f37181c9800 nid=0x6d48 waiting for monitor entry [0x00007f3702206000]
+   java.lang.Thread.State: BLOCKED (on object monitor)
+	at com.epam.brest.jmp.deadlock.FileWorker.run(FileWorker.java:37)
+	- waiting to lock <0x000000076cf75d10> (a com.epam.brest.jmp.deadlock.FileResource)
+	- locked <0x000000076cf75cc0> (a com.epam.brest.jmp.deadlock.FileResource)
+	- locked <0x000000076cf78aa8> (a com.epam.brest.jmp.deadlock.FileWorker)
+	at java.lang.Thread.run(Thread.java:745)
+
+   Locked ownable synchronizers:
+	- None
+
+"Service Thread" #8 daemon prio=9 os_prio=0 tid=0x00007f3718190000 nid=0x6d46 runnable [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+   Locked ownable synchronizers:
+	- None
+
+"C1 CompilerThread2" #7 daemon prio=9 os_prio=0 tid=0x00007f3718183000 nid=0x6d45 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+   Locked ownable synchronizers:
+	- None
+
+"C2 CompilerThread1" #6 daemon prio=9 os_prio=0 tid=0x00007f3718181000 nid=0x6d44 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+   Locked ownable synchronizers:
+	- None
+
+"C2 CompilerThread0" #5 daemon prio=9 os_prio=0 tid=0x00007f371817e000 nid=0x6d43 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+   Locked ownable synchronizers:
+	- None
+
+"Signal Dispatcher" #4 daemon prio=9 os_prio=0 tid=0x00007f371817c800 nid=0x6d42 runnable [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+   Locked ownable synchronizers:
+	- None
+
+"Finalizer" #3 daemon prio=8 os_prio=0 tid=0x00007f3718146000 nid=0x6d41 in Object.wait() [0x00007f3702d15000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(Native Method)
+	- waiting on <0x000000076cf070b8> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:143)
+	- locked <0x000000076cf070b8> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:164)
+	at java.lang.ref.Finalizer$FinalizerThread.run(Finalizer.java:209)
+
+   Locked ownable synchronizers:
+	- None
+
+"Reference Handler" #2 daemon prio=10 os_prio=0 tid=0x00007f3718143800 nid=0x6d40 in Object.wait() [0x00007f3702e16000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(Native Method)
+	- waiting on <0x000000076cf06af8> (a java.lang.ref.Reference$Lock)
+	at java.lang.Object.wait(Object.java:502)
+	at java.lang.ref.Reference$ReferenceHandler.run(Reference.java:157)
+	- locked <0x000000076cf06af8> (a java.lang.ref.Reference$Lock)
+
+   Locked ownable synchronizers:
+	- None
+
+"VM Thread" os_prio=0 tid=0x00007f371813e800 nid=0x6d3f runnable 
+
+"GC task thread#0 (ParallelGC)" os_prio=0 tid=0x00007f371801f000 nid=0x6d3b runnable 
+
+"GC task thread#1 (ParallelGC)" os_prio=0 tid=0x00007f3718020800 nid=0x6d3c runnable 
+
+"GC task thread#2 (ParallelGC)" os_prio=0 tid=0x00007f3718022800 nid=0x6d3d runnable 
+
+"GC task thread#3 (ParallelGC)" os_prio=0 tid=0x00007f3718024000 nid=0x6d3e runnable 
+
+"VM Periodic Task Thread" os_prio=0 tid=0x00007f3718193000 nid=0x6d47 waiting on condition 
+
+JNI global references: 330
+
+
+Found one Java-level deadlock:
+=============================
+"Thread-3":
+  waiting to lock monitor 0x00007f36e00062c8 (object 0x000000076cf75cc0, a com.epam.brest.jmp.deadlock.FileResource),
+  which is held by "Thread-0"
+"Thread-0":
+  waiting to lock monitor 0x00007f36c4002178 (object 0x000000076cf75d10, a com.epam.brest.jmp.deadlock.FileResource),
+  which is held by "Thread-1"
+"Thread-1":
+  waiting to lock monitor 0x00007f36c4003778 (object 0x000000076cf75d60, a com.epam.brest.jmp.deadlock.FileResource),
+  which is held by "Thread-2"
+"Thread-2":
+  waiting to lock monitor 0x00007f36c4004d78 (object 0x000000076cf75db0, a com.epam.brest.jmp.deadlock.FileResource),
+  which is held by "Thread-3"
+
+Java stack information for the threads listed above:
+===================================================
+"Thread-3":
+	at com.epam.brest.jmp.deadlock.FileWorker.run(FileWorker.java:37)
+	- waiting to lock <0x000000076cf75cc0> (a com.epam.brest.jmp.deadlock.FileResource)
+	- locked <0x000000076cf75db0> (a com.epam.brest.jmp.deadlock.FileResource)
+	- locked <0x000000076cf78f88> (a com.epam.brest.jmp.deadlock.FileWorker)
+	at java.lang.Thread.run(Thread.java:745)
+"Thread-0":
+	at com.epam.brest.jmp.deadlock.FileWorker.run(FileWorker.java:37)
+	- waiting to lock <0x000000076cf75d10> (a com.epam.brest.jmp.deadlock.FileResource)
+	- locked <0x000000076cf75cc0> (a com.epam.brest.jmp.deadlock.FileResource)
+	- locked <0x000000076cf78aa8> (a com.epam.brest.jmp.deadlock.FileWorker)
+	at java.lang.Thread.run(Thread.java:745)
+"Thread-1":
+	at com.epam.brest.jmp.deadlock.FileWorker.run(FileWorker.java:37)
+	- waiting to lock <0x000000076cf75d60> (a com.epam.brest.jmp.deadlock.FileResource)
+	- locked <0x000000076cf75d10> (a com.epam.brest.jmp.deadlock.FileResource)
+	- locked <0x000000076cf78e98> (a com.epam.brest.jmp.deadlock.FileWorker)
+	at java.lang.Thread.run(Thread.java:745)
+"Thread-2":
+	at com.epam.brest.jmp.deadlock.FileWorker.run(FileWorker.java:37)
+	- waiting to lock <0x000000076cf75db0> (a com.epam.brest.jmp.deadlock.FileResource)
+	- locked <0x000000076cf75d60> (a com.epam.brest.jmp.deadlock.FileResource)
+	- locked <0x000000076cf78f10> (a com.epam.brest.jmp.deadlock.FileWorker)
+	at java.lang.Thread.run(Thread.java:745)
+
+Found 1 deadlock.
+
