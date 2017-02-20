@@ -11,7 +11,7 @@ every FileWorker performs actions with FileResources
 in synchronized() block consequentially with 2 FileResources.
  
 As a result we have a deadlock with 4 resources in 4 threads.
-This results are represented in [thread dumps](/docs).
+This results are represented in [thread dumps](./docs).
   
 ## To run an application
 1. Refer to [Main Readme](../README.md)
