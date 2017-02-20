@@ -22,7 +22,7 @@ public class FileResource {
     }
 
     /**
-     *
+     * Simple getter
      * @return - name of this Resource
      */
     public String getName() {
@@ -30,6 +30,7 @@ public class FileResource {
     }
 
     /**
+     * Simple constructor
      * Creates an instance of {@link FileResource}
      * @param name
      */

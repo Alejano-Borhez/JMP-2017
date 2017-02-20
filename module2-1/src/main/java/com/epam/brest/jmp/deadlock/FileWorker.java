@@ -10,10 +10,18 @@ public class FileWorker implements Runnable {
     private final FileResource resource2;
     private String name;
 
+    /**
+     * Simple getter
+     * @return #name of a worker
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Simple setter
+     * @param name - name of a worker
+     */
     public void setName(String name) {
         this.name = name;
     }

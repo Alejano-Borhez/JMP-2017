@@ -18,6 +18,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.0.2</version>
                 <configuration>
+
                     <archive>
                         <index>true</index>
                         <manifest>
@@ -29,6 +30,15 @@
                             <url>${project.url}</url>
                         </manifestEntries>
                     </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.1</version>
+                <configuration>
+                    <target>1.6</target>
+                    <source>1.6</source>
                 </configuration>
             </plugin>
 
