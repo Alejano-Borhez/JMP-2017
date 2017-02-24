@@ -6,6 +6,7 @@
 # Package Files #
 *.jar
 !classes.jar
+!reloaded.jar
 *.war
 *.ear
 

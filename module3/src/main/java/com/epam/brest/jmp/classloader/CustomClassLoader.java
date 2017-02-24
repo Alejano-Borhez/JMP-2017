@@ -19,24 +19,39 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 /**
- * This classloader is implemented using hard-coded class-source path: {@link CustomClassLoader#PATH_TO_JARS)}
+ * This classloader is implemented using hard-coded class-source path: {@link CustomClassLoader#pathToJars )}
  * Further it could be extended to use different sources or to set them through properties
  * <p>
  * Created by alexander_borohov on 24.2.17.
  */
 public class CustomClassLoader extends ClassLoader {
-    private static final Logger logger = LogManager.getLogger(CustomClassLoader.class);
+    private final Logger logger = LogManager.getLogger(CustomClassLoader.class);
 
     //  This archive contains classes to be loaded dynamically
-    private static final String PATH_TO_JARS = "com/epam/brest/jmp/extensions/classes.jar";
+    private String pathToJars = "com/epam/brest/jmp/extensions/classes.jar";
     //  This is internal cache
     private Map<String, Class<?>> classes;
     private String className;
 
+    public Map<String, Class<?>> getClasses() {
+        return classes;
+    }
+
+    public void removeClass(String name) {
+        this.classes.remove(name);
+    }
+
+    public void addClass(String name, Class<?> clazz) {
+        this.classes.put(name, clazz);
+    }
+
+    public void setPathToJars(String pathToJars) {
+        this.pathToJars = pathToJars;
+    }
+
     public CustomClassLoader() {
         super(CustomClassLoader.class.getClassLoader());
         this.classes = new HashMap<>();
-
     }
 
     public CustomClassLoader(ClassLoader parent) {
@@ -54,17 +69,17 @@ public class CustomClassLoader extends ClassLoader {
             byte[] classSource = getBytes(name);
 //            Trying to define a class
             clazz = super.defineClass(className, classSource, 0, classSource.length);
-            return clazz;
-        } else {
-            throw new ClassNotFoundException(format("Class %s could not be loaded", name));
+            addClass(name, clazz);
         }
+        return clazz;
     }
 
     private byte[] getBytes(String name) throws ClassNotFoundException {
         JarFile file = null;
+        name = prepareClassName(name);
         try {
 //            Getting inputStream from sources dir
-            InputStream absolutePath = this.getClass().getClassLoader().getResourceAsStream(PATH_TO_JARS);
+            InputStream absolutePath = this.getClass().getClassLoader().getResourceAsStream(pathToJars);
             Path tempFile = Files.createTempFile(Paths.get(System.getProperty("user.home")), "source", ".jar");
             Files.copy(absolutePath, tempFile, REPLACE_EXISTING);
 //            Obtaining JarFile instance from temp file
@@ -91,8 +106,19 @@ public class CustomClassLoader extends ClassLoader {
             throw new ClassNotFoundException(format("Specified jarFile not found %s", name));
         } catch (NullPointerException e) {
             logger.debug("Resource path is incorrect: {}", e.getMessage());
-            throw new ClassNotFoundException(format("Specified resource not found %s", PATH_TO_JARS));
+            throw new ClassNotFoundException(format("Specified resource not found %s", pathToJars));
         }
+    }
+
+    private String prepareClassName(String name) {
+        if (name.contains(".")) {
+            String[] strings = className.split(name);
+            if (strings[strings.length - 1].equals(".class") && strings.length >= 2) {
+                return strings[strings.length - 2];
+            }
+            return strings[strings.length - 1];
+        }
+        return name;
     }
 
     private String getClassName(JarEntry neededClassEntry) {
