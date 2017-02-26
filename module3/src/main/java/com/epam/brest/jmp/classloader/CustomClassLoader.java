@@ -75,12 +75,13 @@ public class CustomClassLoader extends ClassLoader {
     }
 
     private byte[] getBytes(String name) throws ClassNotFoundException {
-        JarFile file = null;
+        JarFile file;
+        Path tempFile = null;
         name = prepareClassName(name);
         try {
 //            Getting inputStream from sources dir
             InputStream absolutePath = this.getClass().getClassLoader().getResourceAsStream(pathToJars);
-            Path tempFile = Files.createTempFile(Paths.get(System.getProperty("user.home")), "source", ".jar");
+            tempFile = Files.createTempFile(Paths.get(System.getProperty("user.home")), "source", ".jar");
             Files.copy(absolutePath, tempFile, REPLACE_EXISTING);
 //            Obtaining JarFile instance from temp file
             file = new JarFile(tempFile.toFile());
@@ -107,6 +108,12 @@ public class CustomClassLoader extends ClassLoader {
         } catch (NullPointerException e) {
             logger.debug("Resource path is incorrect: {}", e.getMessage());
             throw new ClassNotFoundException(format("Specified resource not found %s", pathToJars));
+        } finally {
+            try {
+                if (tempFile != null)
+                    Files.deleteIfExists(tempFile);
+            } catch (IOException e) {
+            }
         }
     }
 
