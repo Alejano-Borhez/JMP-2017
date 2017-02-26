@@ -18,6 +18,7 @@
         <module>module3</module>
         <module>module3classes</module>
         <module>module3-2</module>
+        <module>module3-3</module>
     </modules>
 
     <properties>
