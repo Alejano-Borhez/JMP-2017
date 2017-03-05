@@ -20,6 +20,7 @@
         <module>module3-2</module>
         <module>module3-3</module>
         <module>module4-1</module>
+        <module>module4-2</module>
     </modules>
 
     <properties>
