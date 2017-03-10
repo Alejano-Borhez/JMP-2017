@@ -21,6 +21,7 @@
         <module>module3-3</module>
         <module>module4-1</module>
         <module>module4-2</module>
+        <module>module5</module>
     </modules>
 
     <properties>
@@ -61,6 +62,11 @@
                 <groupId>org.easymock</groupId>
                 <artifactId>easymock</artifactId>
                 <version>${easymock.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.kie.modules</groupId>
+                <artifactId>org-apache-commons-lang3</artifactId>
+                <version>6.5.0.Final</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
