@@ -1,5 +1,8 @@
 package com.epam.brest.jmp.model;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
+
 import java.io.Serializable;
 
 /**
@@ -7,13 +10,16 @@ import java.io.Serializable;
  * Created by alexander_borohov on 10.3.17.
  */
 public class Person implements Serializable {
+
+    @Length(min = 3, max = 36, message = "Incorrect name size. Should be from 3 to 36")
     private String name;
+    @Range(min = 1, max = 100, message = "Age is out of range. Should be from 1 to 100")
     private Integer age;
+
     /**
-     * false - female
-     * true - male
+     * {@link Sex}
      */
-    private Boolean sex;
+    private Sex sex;
 
     public String getName() {
         return name;
@@ -31,11 +37,11 @@ public class Person implements Serializable {
         this.age = age;
     }
 
-    public Boolean getSex() {
+    public Sex getSex() {
         return sex;
     }
 
-    public void setSex(Boolean sex) {
+    public void setSex(Sex sex) {
         this.sex = sex;
     }
 
@@ -46,5 +52,10 @@ public class Person implements Serializable {
                 ", age=" + age +
                 ", sex=" + sex +
                 '}';
+    }
+
+    public enum Sex {
+        MALE,
+        FEMALE
     }
 }
