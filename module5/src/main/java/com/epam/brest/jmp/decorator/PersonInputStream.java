@@ -13,10 +13,10 @@ import java.io.ObjectInputStream;
  * Created by alexander_borohov on 10.3.17.
  */
 public class PersonInputStream extends InputStream {
-    private InputStream inputStream;
+    private ObjectInputStream inputStream;
 
     public PersonInputStream(InputStream inputStream) {
-        this.inputStream = inputStream;
+        this.inputStream = (ObjectInputStream) inputStream;
     }
 
     @Override
@@ -25,7 +25,7 @@ public class PersonInputStream extends InputStream {
     }
 
     public Person readPerson() throws IOException, ClassNotFoundException {
-        ObjectInputStream stream = (ObjectInputStream) inputStream;
+        ObjectInputStream stream = inputStream;
         Person person = (Person) stream.readObject();
         person.setName(WordUtils.capitalizeFully(person.getName()));
         return person;

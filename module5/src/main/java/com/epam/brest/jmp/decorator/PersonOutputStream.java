@@ -13,10 +13,10 @@ import java.io.OutputStream;
  * Created by alexander_borohov on 10.3.17.
  */
 public class PersonOutputStream extends OutputStream {
-    private OutputStream outputStream;
+    private ObjectOutputStream outputStream;
 
     public PersonOutputStream(OutputStream outputStream) {
-        this.outputStream = outputStream;
+        this.outputStream = (ObjectOutputStream) outputStream;
     }
 
     @Override
@@ -25,28 +25,11 @@ public class PersonOutputStream extends OutputStream {
     }
 
     public void writePerson(Person person) throws IOException {
-        person.setName(WordUtils.capitalizeFully(person.getName()));
-        ObjectOutputStream stream = (ObjectOutputStream) outputStream;
-        stream.writeObject(person);
-    }
+        Person personToWrite = new Person();
+        personToWrite.setAge(person.getAge());
+        personToWrite.setName(WordUtils.capitalizeFully(person.getName()));
+        personToWrite.setSex(person.getSex());
 
-    @Override
-    public void write(byte[] b) throws IOException {
-        outputStream.write(b);
-    }
-
-    @Override
-    public void write(byte[] b, int off, int len) throws IOException {
-        outputStream.write(b, off, len);
-    }
-
-    @Override
-    public void flush() throws IOException {
-        outputStream.flush();
-    }
-
-    @Override
-    public void close() throws IOException {
-        outputStream.close();
+        outputStream.writeObject(personToWrite);
     }
 }
