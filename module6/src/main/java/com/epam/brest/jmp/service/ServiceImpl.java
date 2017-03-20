@@ -1,6 +1,5 @@
 package com.epam.brest.jmp.service;
 
-import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -81,6 +80,14 @@ public class ServiceImpl implements ServiceFacade {
     }
 
     @Override
+    public Task updateTask(Task task) {
+        assertCorrectTask(task);
+        Task updated = taskDao.update(task);
+        assertCorrectTask(updated);
+        return updated;
+    }
+
+    @Override
     public Integer addNewUser(User user) {
         assertCorrectUser(user);
         Integer id = userDao.create(user);
@@ -143,7 +150,6 @@ public class ServiceImpl implements ServiceFacade {
             assertNotNull("Null userId", task.getUserId());
             assertNotNull("Null creationDate", task.getCreationDate());
             assertNotNull("Null deadLine", task.getDeadLine());
-            assertNull("Not Null id", task.getId());
         } catch (AssertionError error) {
             throw new ServiceException(task, error.getMessage());
         }
@@ -152,10 +158,9 @@ public class ServiceImpl implements ServiceFacade {
     private void assertCorrectUser(User user) {
         try {
             assertNotNull("Null user!", user);
-            assertNull("Not null id", user.getId());
-            assertNull("Null name", user.getName());
-            assertNull("Null surname", user.getSurname());
-            assertNull("Null email", user.getEmail());
+            assertNotNull("Null name", user.getName());
+            assertNotNull("Null surname", user.getSurname());
+            assertNotNull("Null email", user.getEmail());
         } catch (AssertionError error) {
             throw new ServiceException(user, error.getMessage());
         }

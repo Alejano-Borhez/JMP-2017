@@ -1,6 +1,17 @@
 package com.epam.brest.jmp.model;
 
-import java.time.LocalDateTime;
+import static com.fasterxml.jackson.annotation.JsonCreator.Mode.PROPERTIES;
+import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.Objects;
@@ -10,28 +21,34 @@ import java.util.Objects;
  * Created by alexander_borohov on 9.2.17.
  */
 public class Task implements Entity<Integer> {
+    private static final String DATE_PATTERN = "yyyy-MM-dd";
+    @JsonProperty(required = false, value = "id")
     private Integer id;
+    @JsonProperty(required = true, value = "userId")
     private Integer userId;
+    @JsonProperty(required = false, value = "name")
     private String name;
+    @JsonProperty(required = true, value = "description")
     private String description;
-    private LocalDateTime creationDate;
-    private LocalDateTime deadLine;
+    @JsonFormat(pattern = DATE_PATTERN, shape = STRING)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonProperty(required = false, value = "creationDate")
+    private LocalDate creationDate;
+    @JsonFormat(pattern = DATE_PATTERN, shape = STRING)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonProperty(required = false, value = "deadLine")
+    private LocalDate deadLine;
 
     /**
-     * Simple constructor that created a {@link #name} from {@link #description} (using first word),
-     * sets {@link #creationDate} as current {@link LocalDateTime}
-     * sets default {@link #deadLine} as 1 day after {@link #creationDate}
-     * Also  ensures that any {@link Task} must be given an {@link User#id} of a owner.
+     * For test use only!
      *
      * @param description - Description of a {@link Task}
-     * @param userId - {@link User#id} of a task owner {@link User}
+     * @param userId      - {@link User#id} of a task owner {@link User}
      */
     public Task(String description, Integer userId) {
-        this.name = description.split("\\s")[0];
-        this.description = description;
-        this.creationDate = LocalDateTime.now();
-        this.deadLine = LocalDateTime.from(creationDate).plusDays(1);
-        this.userId = userId;
+        this(null, description, null, userId);
     }
 
     /**
@@ -39,14 +56,22 @@ public class Task implements Entity<Integer> {
      * Also  ensures that any {@link Task} must be given an {@link User#id} of a owner.
      *
      * @param description - Description of a {@link Task}
-     * @param userId - {@link User#id} of a task owner {@link User}
-     *               @param deadLine -
+     * @param userId      - {@link User#id} of a task owner {@link User}
+     * @param deadLine    -
      */
-    public Task(String name, String description, LocalDateTime deadLine, Integer userId) {
-        this.name = name;
+    @JsonCreator(mode = PROPERTIES)
+    public Task(@JsonProperty("name")
+                        String name,
+                @JsonProperty("description")
+                        String description,
+                @JsonProperty("deadLine")
+                        LocalDate deadLine,
+                @JsonProperty("userId")
+                        Integer userId) {
+        this.name = (name != null) ? name : description.split("\\s")[0];
         this.description = description;
-        this.deadLine = deadLine;
-        this.creationDate = LocalDateTime.now();
+        this.creationDate = LocalDate.now();
+        this.deadLine = (deadLine != null) ? deadLine : LocalDate.from(creationDate).plusDays(1);
         this.userId = userId;
     }
 
@@ -78,15 +103,15 @@ public class Task implements Entity<Integer> {
         this.name = name;
     }
 
-    public LocalDateTime getCreationDate() {
+    public LocalDate getCreationDate() {
         return creationDate;
     }
 
-    public LocalDateTime getDeadLine() {
+    public LocalDate getDeadLine() {
         return deadLine;
     }
 
-    public void setDeadLine(LocalDateTime deadLine) {
+    public void setDeadLine(LocalDate deadLine) {
         this.deadLine = deadLine;
     }
 
@@ -109,15 +134,15 @@ public class Task implements Entity<Integer> {
     @Override
     public String toString() {
         DateTimeFormatterBuilder builder = new DateTimeFormatterBuilder();
-        builder.appendPattern("YYYY-MM-DD");
+        builder.appendPattern(DATE_PATTERN);
         DateTimeFormatter dateTimeFormatter = builder.toFormatter();
         return "Task{" +
                 "id=" + id +
                 ", userId=" + userId +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", creationDate=" + creationDate.format(dateTimeFormatter) +
-                ", deadLine=" + deadLine.format(dateTimeFormatter) +
+                ", creationDate=" + ((creationDate != null) ? creationDate.format(dateTimeFormatter) : "") +
+                ", deadLine=" + ((deadLine != null) ? deadLine.format(dateTimeFormatter) : "") +
                 '}';
     }
 }

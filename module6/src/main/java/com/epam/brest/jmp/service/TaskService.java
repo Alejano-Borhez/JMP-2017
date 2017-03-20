@@ -54,4 +54,6 @@ public interface TaskService {
      * @return List of User's tasks
      */
     List<Task> getAllTaskOfAUser(Integer userId);
+
+    Task updateTask(Task task);
 }

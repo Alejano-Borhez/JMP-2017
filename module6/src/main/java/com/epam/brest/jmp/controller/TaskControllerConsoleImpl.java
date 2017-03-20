@@ -120,7 +120,7 @@ public class TaskControllerConsoleImpl implements TaskController {
         scanner.nextLine();
         System.out.print("Enter Task description: ");
         String description = scanner.nextLine().replaceAll(",", "").trim();
-        Task task = new Task(description, 2);
+        Task task = new Task(null, description, null, 2);
         Integer id = taskService.addNewTask(task);
         if (id != null) {
             System.out.printf("You have added new task. ID: %d \n", id);
