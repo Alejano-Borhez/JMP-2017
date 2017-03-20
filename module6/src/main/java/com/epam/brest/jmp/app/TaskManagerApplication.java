@@ -1,7 +1,5 @@
 package com.epam.brest.jmp.app;
 
-import static java.time.LocalDate.now;
-
 import com.epam.brest.jmp.dao.DAO;
 import com.epam.brest.jmp.dao.TaskDao;
 import com.epam.brest.jmp.dao.impl.TaskInMemoryDao;
@@ -19,7 +17,10 @@ import org.glassfish.jersey.moxy.xml.MoxyXmlFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by alexander_borohov on 9.2.17.
@@ -71,9 +72,10 @@ public class TaskManagerApplication {
     }
 
     private static void initTaskStorage(TaskDao taskDao, User owner) {
-        Task taskOne = new Task("Test1", "TestDesc1", now().plusDays(2), owner.getId());
-        Task taskTwo = new Task("Test2", "TestDesc2", now().plusDays(2), owner.getId());
-        Task taskThree = new Task("Test3", "TestDesc3", now().plusDays(2), owner.getId());
+        Date date = Date.from(LocalDate.now().plusDays(2).atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Task taskOne = new Task("Test1", "TestDesc1", date, owner.getId());
+        Task taskTwo = new Task("Test2", "TestDesc2", date, owner.getId());
+        Task taskThree = new Task("Test3", "TestDesc3", date, owner.getId());
 
         taskDao.create(taskOne);
         taskDao.create(taskTwo);

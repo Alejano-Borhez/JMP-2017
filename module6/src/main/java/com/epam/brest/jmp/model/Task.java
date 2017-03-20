@@ -1,19 +1,15 @@
 package com.epam.brest.jmp.model;
 
 import static com.fasterxml.jackson.annotation.JsonCreator.Mode.PROPERTIES;
-import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -21,7 +17,8 @@ import java.util.Objects;
  * Created by alexander_borohov on 9.2.17.
  */
 public class Task implements Entity<Integer> {
-    private static final String DATE_PATTERN = "yyyy-MM-dd";
+    public static final String DATE_PATTERN = "yyyy-MM-dd";
+
     @JsonProperty(required = false, value = "id")
     private Integer id;
     @JsonProperty(required = true, value = "userId")
@@ -30,16 +27,22 @@ public class Task implements Entity<Integer> {
     private String name;
     @JsonProperty(required = true, value = "description")
     private String description;
-    @JsonFormat(pattern = DATE_PATTERN, shape = STRING)
-    @JsonSerialize(using = LocalDateSerializer.class)
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonProperty(required = false, value = "creationDate")
-    private LocalDate creationDate;
-    @JsonFormat(pattern = DATE_PATTERN, shape = STRING)
-    @JsonSerialize(using = LocalDateSerializer.class)
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonProperty(required = false, value = "deadLine")
-    private LocalDate deadLine;
+//    @JsonFormat(pattern = DATE_PATTERN, shape = STRING)
+//    @JsonSerialize(using = LocalDateSerializer.class)
+//    @JsonDeserialize(using = LocalDateDeserializer.class)
+//    @JsonProperty(required = false, value = "creationDate")
+//    @XmlElement(required = false, type = String.class, name = "creationDate")
+
+    private Date creationDate;
+    //    @XmlElement(required = true, type = String.class, name = "deadLine")
+//    @JsonFormat(pattern = DATE_PATTERN, shape = STRING)
+//    @JsonSerialize(using = LocalDateSerializer.class)
+//    @JsonDeserialize(using = LocalDateDeserializer.class)
+//    @JsonProperty(required = false, value = "deadLine")
+    private Date deadLine;
+
+    public Task() {
+    }
 
     /**
      * For test use only!
@@ -65,13 +68,13 @@ public class Task implements Entity<Integer> {
                 @JsonProperty("description")
                         String description,
                 @JsonProperty("deadLine")
-                        LocalDate deadLine,
+                        Date deadLine,
                 @JsonProperty("userId")
                         Integer userId) {
         this.name = (name != null) ? name : description.split("\\s")[0];
         this.description = description;
-        this.creationDate = LocalDate.now();
-        this.deadLine = (deadLine != null) ? deadLine : LocalDate.from(creationDate).plusDays(1);
+        this.creationDate = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        this.deadLine = (deadLine != null) ? deadLine : (Date.from(LocalDate.from(creationDate.toInstant()).plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant()));
         this.userId = userId;
     }
 
@@ -85,6 +88,10 @@ public class Task implements Entity<Integer> {
 
     public Integer getUserId() {
         return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getDescription() {
@@ -103,15 +110,19 @@ public class Task implements Entity<Integer> {
         this.name = name;
     }
 
-    public LocalDate getCreationDate() {
+    public Date getCreationDate() {
         return creationDate;
     }
 
-    public LocalDate getDeadLine() {
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Date getDeadLine() {
         return deadLine;
     }
 
-    public void setDeadLine(LocalDate deadLine) {
+    public void setDeadLine(Date deadLine) {
         this.deadLine = deadLine;
     }
 
@@ -141,8 +152,8 @@ public class Task implements Entity<Integer> {
                 ", userId=" + userId +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", creationDate=" + ((creationDate != null) ? creationDate.format(dateTimeFormatter) : "") +
-                ", deadLine=" + ((deadLine != null) ? deadLine.format(dateTimeFormatter) : "") +
+                ", creationDate=" + ((creationDate != null) ? creationDate.toString() : "") +
+                ", deadLine=" + ((deadLine != null) ? deadLine.toString() : "") +
                 '}';
     }
 }

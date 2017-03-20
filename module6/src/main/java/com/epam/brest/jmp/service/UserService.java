@@ -55,4 +55,11 @@ public interface UserService {
      * @return owner of a Task
      */
     User getTaskOwner(Integer id);
+
+    /**
+     * Updates a user
+     * @param user - new datd for existing user
+     * @return - updated user
+     */
+    User updateUser(User user);
 }

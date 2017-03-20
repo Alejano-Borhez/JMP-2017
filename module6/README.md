@@ -27,6 +27,9 @@ Generate WSDL and publish.
 
 Generate client and verify your web services.
 
-
-## To run an application
-Refer to [Main Readme](../README.md)
+## To run it
+ - `mvn clean install`
+ - `java -jar target/module6-0.0.1-SNAPSHOT.jar com.epam.brest.jmp.app.TaskManagerSOAP`
+ - access wsdl on `http://localhost:8080/app?wsdl`
+ - generate client source `wsimport -s .../JMP-2017/module6-soap-client/src/main/java http://localhost:8080/app?wsdl`
+ - or use already generated client in module module6-soap-client.

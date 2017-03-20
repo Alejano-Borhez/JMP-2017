@@ -133,6 +133,16 @@ public class ServiceImpl implements ServiceFacade {
         return user;
     }
 
+    @Override
+    public User updateUser(User user) {
+        assertCorrectUser(user);
+        User updated = userDao.read(user.getId());
+        assertCorrectUser(updated);
+        updated = userDao.update(user);
+        assertCorrectUser(updated);
+        return updated;
+    }
+
     private void assertCorrectId(Integer id) {
         try {
             assertNotNull("Null id provided", id);
@@ -148,8 +158,8 @@ public class ServiceImpl implements ServiceFacade {
             assertNotNull("Null description", task.getDescription());
             assertNotNull("Null name", task.getName());
             assertNotNull("Null userId", task.getUserId());
-            assertNotNull("Null creationDate", task.getCreationDate());
-            assertNotNull("Null deadLine", task.getDeadLine());
+//            assertNotNull("Null creationDate", task.getCreationDate());
+//            assertNotNull("Null deadLine", task.getDeadLine());
         } catch (AssertionError error) {
             throw new ServiceException(task, error.getMessage());
         }
