@@ -16,7 +16,7 @@
         <module>module2-1</module>
         <module>module2-2</module>
         <module>module3</module>
-        <module>module3classes</module>
+        <module>module3-classes</module>
         <module>module3-2</module>
         <module>module3-3</module>
         <module>module4-1</module>
@@ -24,6 +24,7 @@
         <module>module5</module>
         <module>module6</module>
         <module>module6-soap-client</module>
+        <module>module7</module>
     </modules>
 
     <properties>
@@ -34,6 +35,7 @@
         <jetty.version>9.4.2.v20170220</jetty.version>
         <jersey.version>2.25.1</jersey.version>
         <jackson.version>2.8.6</jackson.version>
+        <spring.version>4.3.5.RELEASE</spring.version>
     </properties>
 
     <dependencyManagement>
@@ -177,6 +179,26 @@
                 <groupId>commons-discovery</groupId>
                 <artifactId>commons-discovery</artifactId>
                 <version>20040218.194635</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-beans</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>${spring.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

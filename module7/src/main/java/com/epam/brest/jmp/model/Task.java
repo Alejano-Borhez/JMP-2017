@@ -1,10 +1,6 @@
 package com.epam.brest.jmp.model;
 
-import static com.fasterxml.jackson.annotation.JsonCreator.Mode.PROPERTIES;
 import static java.time.temporal.ChronoUnit.DAYS;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -20,26 +16,11 @@ import java.util.Objects;
 public class Task implements Entity<Integer> {
     public static final String DATE_PATTERN = "yyyy-MM-dd";
 
-    @JsonProperty(required = false, value = "id")
     private Integer id;
-    @JsonProperty(required = true, value = "userId")
     private Integer userId;
-    @JsonProperty(required = false, value = "name")
     private String name;
-    @JsonProperty(required = true, value = "description")
     private String description;
-//    @JsonFormat(pattern = DATE_PATTERN, shape = STRING)
-//    @JsonSerialize(using = LocalDateSerializer.class)
-//    @JsonDeserialize(using = LocalDateDeserializer.class)
-//    @JsonProperty(required = false, value = "creationDate")
-//    @XmlElement(required = false, type = String.class, name = "creationDate")
-
     private Date creationDate;
-    //    @XmlElement(required = true, type = String.class, name = "deadLine")
-//    @JsonFormat(pattern = DATE_PATTERN, shape = STRING)
-//    @JsonSerialize(using = LocalDateSerializer.class)
-//    @JsonDeserialize(using = LocalDateDeserializer.class)
-//    @JsonProperty(required = false, value = "deadLine")
     private Date deadLine;
 
     public Task() {
@@ -63,15 +44,10 @@ public class Task implements Entity<Integer> {
      * @param userId      - {@link User#id} of a task owner {@link User}
      * @param deadLine    -
      */
-    @JsonCreator(mode = PROPERTIES)
-    public Task(@JsonProperty("name")
-                        String name,
-                @JsonProperty("description")
-                        String description,
-                @JsonProperty("deadLine")
-                        Date deadLine,
-                @JsonProperty("userId")
-                        Integer userId) {
+    public Task(String name,
+                String description,
+                Date deadLine,
+                Integer userId) {
         this.name = (name != null) ? name : description.split("\\s")[0];
         this.description = description;
         this.creationDate = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
