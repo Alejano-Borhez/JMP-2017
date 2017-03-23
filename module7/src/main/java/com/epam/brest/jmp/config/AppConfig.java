@@ -8,6 +8,7 @@ import com.epam.brest.jmp.model.Task;
 import com.epam.brest.jmp.model.User;
 import com.epam.brest.jmp.service.ServiceFacade;
 import org.easymock.EasyMock;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -28,7 +29,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 @Configuration
 @ComponentScan(basePackages = {"com.epam.brest.jmp.service", "com.epam.brest.jmp.controller"})
-public class AppConfig {
+public class AppConfig implements InitializingBean {
+    @Autowired
+    private ServiceFacade service;
+
     @Bean
     @Profile("Prod")
     public UserDao userDao() {
@@ -36,10 +40,9 @@ public class AppConfig {
         return new UserInMemoryDao(users);
     }
 
-    @Bean
-    public boolean setup(@Autowired ServiceFacade service) {
+    @Override
+    public void afterPropertiesSet() {
         User owner = new User("TestName", "Surname", "email");
-
         Date date = Date.from(LocalDate.now().plusDays(2).atStartOfDay(ZoneId.systemDefault()).toInstant());
 
         owner.setId(service.addNewUser(owner));
@@ -51,8 +54,6 @@ public class AppConfig {
         service.addNewTask(taskOne);
         service.addNewTask(taskTwo);
         service.addNewTask(taskThree);
-
-        return true;
     }
 
     @Bean
@@ -87,13 +88,9 @@ public class AppConfig {
         final Integer TEST_TASK_ID_FIRST = 1;
         final Integer TEST_TASK_ID_SECOND = 2;
         final Integer TEST_TASK_ID_THIRD = 3;
-        final Integer TEST_TASK_ID = 4;
         final String TEST_TASK_DESC_FIRST = "test task 1 description";
         final String TEST_TASK_DESC_SECOND = "test task 2 description";
         final String TEST_TASK_DESC_THIRD = "test task 3 description";
-        final String TEST_USER_NAME = "test username";
-        final String TEST_USER_SURNAME = "test surname";
-        final String TEST_USER_EMAIL = "test email";
 
         Task testTaskFirst = new Task(TEST_TASK_DESC_FIRST, TEST_USER_ID);
         Task testTaskSecond = new Task(TEST_TASK_DESC_SECOND, TEST_USER_ID);

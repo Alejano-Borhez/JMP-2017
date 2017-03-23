@@ -31,7 +31,7 @@ public class TaskInMemoryDao implements InMemoryDAO<Task, Integer>, TaskDao {
     public Collection<Task> getAllTaskOfAUser(Integer userId) {
         List<Task> tasksOfAUser = new ArrayList<>();
         for (Task task : getStorage()) {
-            if (task.getId().equals(userId)) tasksOfAUser.add(task);
+            if (task.getUserId().equals(userId)) tasksOfAUser.add(task);
         }
         return tasksOfAUser;
     }

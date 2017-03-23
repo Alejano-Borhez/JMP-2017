@@ -115,12 +115,18 @@ public class ServiceImpl implements ServiceFacade {
     @Override
     public Boolean removeSpecificUser(Integer id) {
         assertCorrectId(id);
-        return userDao.delete(id);
+        boolean result = userDao.delete(id);
+        if (result) {
+            for (Task task : getAllTaskOfAUser(id)) {
+                removeSpecificTask(task.getId());
+            }
+        }
+        return result;
     }
 
     @Override
     public Boolean removeAllUsers() {
-        return userDao.deleteAll();
+        return userDao.deleteAll() && taskDao.deleteAll();
     }
 
     @Override

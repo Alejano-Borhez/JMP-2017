@@ -2,7 +2,10 @@ package com.epam.brest.jmp.controller;
 
 import static com.epam.brest.jmp.model.Task.DATE_PATTERN;
 
+import static java.lang.Thread.sleep;
+
 import com.epam.brest.jmp.model.Task;
+import com.epam.brest.jmp.model.User;
 import com.epam.brest.jmp.service.ServiceFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +19,7 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
+ * Simple console client implementation
  * Created by alexander_borohov on 9.2.17.
  */
 @Service
@@ -63,6 +67,18 @@ public class TaskControllerConsoleImpl implements TaskController {
                     case 4:
                         removeAllTasks();
                         break;
+                    case 5:
+                        addNewUser();
+                        break;
+                    case 6:
+                        showAllUsers();
+                        break;
+                    case 7:
+                        removeSpecificUser();
+                        break;
+                    case 8:
+                        removeAllUsers();
+                        break;
                     case 0:
                         System.out.print("Bye bye!");
                         break;
@@ -75,6 +91,80 @@ public class TaskControllerConsoleImpl implements TaskController {
             }
         } while (choice != 0);
         scanner.close();
+    }
+
+    /**
+     * Removes all users and tasks in cascade
+     */
+    private void removeAllUsers() throws InterruptedException {
+        System.out.print("Are you sure? (Y, N)");
+        String answer = scanner.nextLine();
+        while (!"Y".equals(answer) && !"N".equals(answer)) {
+            System.out.print("Are you sure? (Y, N)");
+            answer = scanner.nextLine();
+        }
+        System.out.println("Deletion of all users and removing of all tasks by cascade begins");
+        sleep(3000);
+
+        serviceFacade.removeAllUsers();
+    }
+
+    /**
+     * Prompts a user with questions for deletion process.
+     * Also performs cascade remove of all User's tasks
+     */
+    private void removeSpecificUser() {
+        System.out.println("Starting deletion process...");
+        scanner.nextLine();
+        System.out.print("Enter id of deleted user: ");
+        String sId = scanner.nextLine();
+        while (!sId.matches("\\d+")) {
+            System.out.print("Incorrect input. Retry: ");
+            sId = scanner.nextLine();
+        }
+        Integer id = Integer.parseInt(sId);
+
+        User user = serviceFacade.getUserById(id);
+
+        serviceFacade.removeSpecificUser(id);
+        System.out.println("User deleted");
+    }
+
+    /**
+     * Shows a list of all users
+     */
+    private void showAllUsers() {
+        System.out.println("List of users: ");
+        List<User> users = serviceFacade.showAllUsers();
+        if (!users.isEmpty()) {
+            for (User user : users) {
+                System.out.println(user);
+            }
+        } else {
+            System.out.println("Empty users list.");
+        }
+    }
+
+    /**
+     * Provides user dialog to create a new {@link User}
+     */
+    private void addNewUser() {
+        System.out.println("Adding a New User.");
+        scanner.nextLine();
+        System.out.print("Enter name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter surname: ");
+        String surname = scanner.nextLine();
+        System.out.print("Enter email: ");
+        String email = scanner.nextLine();
+        while (!email.matches("(.*)(@)(.*)(\\.)(.{1,3})")) {
+            System.out.print("You've entered incorrect email. Please retry: ");
+            email = scanner.nextLine();
+        }
+
+        User user = new User(name, surname, email);
+
+        System.out.printf("Added user with id: %d\n", serviceFacade.addNewUser(user));
     }
 
     /**
@@ -147,12 +237,14 @@ public class TaskControllerConsoleImpl implements TaskController {
         System.out.print("Enter Task deadline (e.g. 2017-03-21): ");
         DateFormat formatter = new SimpleDateFormat(DATE_PATTERN);
         Date deadLine = null;
-        try {
-            deadLine = formatter.parse(scanner.nextLine());
-        } catch (ParseException e) {
-            System.out.println(e.getMessage());
-        }
+        while (deadLine == null) {
+            try {
+                deadLine = formatter.parse(scanner.nextLine());
+            } catch (ParseException e) {
+                System.out.println(e.getMessage() + ". Used deafault deadline.");
+            }
 
+        }
         Task task = new Task(name, description, deadLine, userId);
         Integer id = serviceFacade.addNewTask(task);
         if (id != null) {
@@ -169,8 +261,12 @@ public class TaskControllerConsoleImpl implements TaskController {
         System.out.println("Choose an option:");
         System.out.println("1. Add new task");
         System.out.println("2. Show all tasks");
-        System.out.println("3. Remove specific task");
+        System.out.println("3. Remove specific Task");
         System.out.println("4. Remove all tasks");
+        System.out.println("5. Add new user");
+        System.out.println("6. Show all users");
+        System.out.println("7. Remove specific User");
+        System.out.println("8. Remove all users");
         System.out.println("0. Quit");
     }
 
@@ -189,5 +285,6 @@ public class TaskControllerConsoleImpl implements TaskController {
         System.out.println("You made incorrect choice. Please try again.");
         return -1;
     }
+
 
 }
