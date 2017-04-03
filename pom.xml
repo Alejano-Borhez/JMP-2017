@@ -25,6 +25,7 @@
         <module>module6</module>
         <module>module6-soap-client</module>
         <module>module7</module>
+        <module>module8</module>
     </modules>
 
     <properties>
@@ -198,6 +199,11 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-jdbc</artifactId>
                 <version>${spring.version}</version>
             </dependency>
         </dependencies>
