@@ -24,7 +24,7 @@ public class ReflectUtils {
     }
 
     public static void setField(Object entity, Field field, Object value) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        Method setter = MethodUtil.getMethod(entity.getClass(), "set" + StringUtils.capitalize(field.getName()), new Class[] {field.getDeclaringClass()});
+        Method setter = MethodUtil.getMethod(entity.getClass(), "set" + StringUtils.capitalize(field.getName()), new Class[] {field.getType()});
         setter.invoke(entity, value);
     }
 

@@ -19,6 +19,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -34,7 +35,8 @@ import java.util.Map;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestDaoConfig.class)
 @DirtiesContext
-public class UserORMDaoTest {
+@ActiveProfiles({"MOCK"})
+public class UserORMDaoMockTest {
     private static final Integer TEST_USER_ID = 1;
     private static final String TEST_USER_NAME_FIRST = "user1 test name";
     private static final String TEST_USER_NAME_SECOND = "user2 test name";

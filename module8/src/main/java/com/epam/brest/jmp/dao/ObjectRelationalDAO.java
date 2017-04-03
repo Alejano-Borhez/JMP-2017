@@ -1,5 +1,6 @@
 package com.epam.brest.jmp.dao;
 
+import static com.epam.brest.jmp.dao.mapper.ReflectUtils.getField;
 import static com.epam.brest.jmp.dao.mapper.ReflectUtils.getStringObjectMap;
 import static java.lang.String.format;
 
@@ -10,11 +11,13 @@ import com.epam.brest.jmp.dao.mapper.EntityRowMapper;
 import com.epam.brest.jmp.model.Entity;
 import com.epam.brest.jmp.model.exceptions.DaoException;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.support.KeyHolder;
 import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -79,20 +82,26 @@ public interface ObjectRelationalDAO<T extends Entity<ID>, ID> extends DAO<T, ID
         MapSqlParameterSource parameterSource = getParameterSource();
         parameterSource.addValues(params);
 
-        T entity = getStorage().queryForObject(selectQuery, parameterSource, getEntityRowMapper());
-
-        if (entity == null) throw new DaoException(id, "not found by ID");
-
-        return entity;
+        try {
+         return getStorage().queryForObject(selectQuery, parameterSource, getEntityRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            throw new DaoException(id, "not found by ID");
+        }
     }
 
     @Override
     default T update(T entity) {
-        String entityIdFieldName = FieldUtils.getFieldsWithAnnotation(entity.getClass(), Id.class)[0].getAnnotation(Id.class).value();
+        java.lang.reflect.Field idField = FieldUtils.getFieldsWithAnnotation(entity.getClass(), Id.class)[0];
+        String entityIdFieldName = idField.getAnnotation(Id.class).value();
         String entityIdQueryLabel = ":".concat(entityIdFieldName);
 
         String tableName = entity.getClass().getAnnotation(Table.class).value();
         Map<String, Object> params = getStringObjectMap(entity);
+        try {
+            params.put(entityIdFieldName, getField(entity, idField));
+        } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException e) {
+            throw new DaoException(idField, "Id field is not present in a model");
+        }
         MapSqlParameterSource parameterSource = getParameterSource();
         parameterSource.addValues(params);
 
