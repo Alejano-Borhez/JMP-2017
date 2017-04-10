@@ -3,7 +3,7 @@ package com.epam.brest.jmp.dao.mapper;
 import com.epam.brest.jmp.model.exceptions.DaoException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
-import sun.reflect.misc.MethodUtil;
+import org.apache.commons.lang3.reflect.MethodUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -19,12 +19,12 @@ import java.util.Map;
 public class ReflectUtils {
 
     public static Object getField(Object entity, Field field) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        Method getter = MethodUtil.getMethod(entity.getClass(), "get" + StringUtils.capitalize(field.getName()), null);
+        Method getter = MethodUtils.getAccessibleMethod(entity.getClass(), "get" + StringUtils.capitalize(field.getName()));
         return getter.invoke(entity);
     }
 
     public static void setField(Object entity, Field field, Object value) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        Method setter = MethodUtil.getMethod(entity.getClass(), "set" + StringUtils.capitalize(field.getName()), new Class[] {field.getType()});
+        Method setter = MethodUtils.getAccessibleMethod(entity.getClass(), "set" + StringUtils.capitalize(field.getName()), field.getType());
         setter.invoke(entity, value);
     }
 

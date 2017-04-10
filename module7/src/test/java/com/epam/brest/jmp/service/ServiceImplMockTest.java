@@ -7,7 +7,7 @@ import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import com.epam.brest.jmp.config.AppConfig;
+import com.epam.brest.jmp.config.AppTestConfig;
 import com.epam.brest.jmp.dao.DAO;
 import com.epam.brest.jmp.dao.TaskDao;
 import com.epam.brest.jmp.dao.UserDao;
@@ -32,7 +32,7 @@ import java.util.List;
  * Created by alexander_borohov on 10.2.17.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = AppConfig.class)
+@ContextConfiguration(classes = AppTestConfig.class)
 @ActiveProfiles("ServiceTest")
 @DirtiesContext
 public class ServiceImplMockTest {
@@ -69,6 +69,7 @@ public class ServiceImplMockTest {
     @Test
     public void addNewTask() throws Exception {
         Task testTaskFirst = new Task(TEST_TASK_DESC_FIRST, TEST_USER_ID);
+        expect(userMockDao.read(TEST_USER_ID)).andReturn(testUser);
         expect(taskMockDao.create(testTaskFirst)).andReturn(TEST_TASK_ID);
         replay(taskMockDao, userMockDao);
         Integer id = taskService.addNewTask(testTaskFirst);
