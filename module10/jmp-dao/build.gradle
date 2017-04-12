@@ -1,0 +1,5 @@
+dependencies {
+    compile project(':jmp-model')
+    compile "org.apache.commons:commons-lang3:${apache_commons_lang_version}"
+    compile "mysql:mysql-connector-java:${mysql_connector_version}"
+}

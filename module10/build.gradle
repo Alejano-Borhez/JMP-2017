@@ -1,0 +1,59 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath "net.saliman:gradle-cobertura-plugin:2.3.2"
+        classpath "org.akhikhl.gretty:gretty:+"
+    }
+}
+
+List spring = ["org.springframework:spring-core:$spring_version",
+               "org.springframework:spring-beans:$spring_version",
+               "org.springframework:spring-context:$spring_version",
+               "org.springframework:spring-jdbc:$spring_version"
+]
+
+List test = ["org.springframework:spring-test:$spring_version",
+             "junit:junit:$junit_version",
+             "org.easymock:easymock:$easymock_version"]
+
+List jackson = ["com.fasterxml.jackson.core:jackson-databind:$jackson_version"]
+
+List logging = ["org.apache.logging.log4j:log4j-api:$log4j2_version",
+                "org.apache.logging.log4j:log4j-core:$log4j2_version",
+                "org.apache.logging.log4j:log4j-slf4j-impl:$log4j2_version"
+]
+
+allprojects {
+    apply plugin: 'net.saliman.cobertura'
+    apply plugin: 'java'
+    apply plugin: 'checkstyle'
+
+    version = '1.0-SNAPSHOT'
+
+//    test.ignoreFailures = true
+
+    project.checkstyle.configFile = new File("../config/checkstyle/checkstyle.xml")
+
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile spring, logging, jackson
+        compile "com.puppycrawl.tools:checkstyle:$checkstyle_version"
+        testCompile test
+    }
+
+}
+
+project(':jmp-dao') {
+    dependencies {
+        compile test
+    }
+}

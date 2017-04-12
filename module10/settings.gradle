@@ -1,0 +1,5 @@
+rootProject.name = 'module10'
+include 'jmp-model',
+        'jmp-dao',
+        'jmp-service',
+        'jmp-web'

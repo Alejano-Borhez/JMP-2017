@@ -1,0 +1,4 @@
+dependencies {
+    compile project(':jmp-model')
+    compile project(':jmp-dao')
+}
