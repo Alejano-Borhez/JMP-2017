@@ -1,4 +1,4 @@
-package com.epam.brest.jmp.config;
+package com.epam.brest.jmp.web.config;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
 
@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.env.Environment;
@@ -25,14 +24,13 @@ import org.springframework.transaction.PlatformTransactionManager;
 import javax.sql.DataSource;
 
 /**
- * Uses real local db connection
- * Created by alexander_borohov on 12.4.17.
+ * Main components of application
+ * Created by alexander_borohov on 14.4.17.
  */
 @Configuration
-@PropertySource("classpath:test-db.properties")
+@PropertySource("classpath:db.properties")
 @ComponentScan(basePackages = {"com.epam.brest.jmp.service", "com.epam.brest.jmp.dao"})
-@Profile("INTEGRATION")
-public class ServiceIntegrationTestConfig {
+public class RootContextConfig {
     @Autowired
     private Environment env;
 

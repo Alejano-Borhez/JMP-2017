@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ServiceIntegrationTest {
     private static final Integer TEST_USER_ID = 1;
-    private static final Integer TEST_TASK_ID_FIRST = 1;
+    private static final Integer TEST_TASK_ID_FIRST = 2;
     private static final Integer TEST_TASK_ID = 4;
     private static final String TEST_TASK_DESC_FIRST = "test task 1 description";
     private static final String TEST_USER_NAME = "test username";
@@ -37,7 +37,7 @@ public class ServiceIntegrationTest {
 
 
     @Test
-    public void readFromDataBaseTest() throws Exception {
+    public void readUserFromDataBaseTest() throws Exception {
         User testUser = service.getUserById(TEST_USER_ID);
         assertEquals("Got wrong user", TEST_USER_ID, testUser.getId());
     }
@@ -54,6 +54,24 @@ public class ServiceIntegrationTest {
     public void readTaskFromDatabaseTest() throws Exception {
         Task testTask = service.getTaskById(TEST_TASK_ID_FIRST);
         assertEquals("Got wrong user", TEST_TASK_ID_FIRST, testTask.getId());
+    }
+
+    @Test
+    public void createNewTaskTest() throws Exception {
+        Task testTask = new Task(TEST_TASK_DESC_FIRST, TEST_USER_ID);
+
+        Integer id = service.addNewTask(testTask);
+        assertNotNull(id);
+
+        Task createdTask = service.getTaskById(id);
+        assertNotNull(createdTask);
+        testTask.setId(id);
+
+        assertEquals(testTask, createdTask);
+    }
+
+    @Test
+    public void deleteTaskTest() throws Exception {
 
     }
 }

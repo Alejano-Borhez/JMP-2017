@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ import java.util.List;
  * Created by alexander_borohov on 9.2.17.
  */
 @Service
+@Transactional
 public class ServiceImpl implements ServiceFacade {
     private TaskDao taskDao;
     private UserDao userDao;

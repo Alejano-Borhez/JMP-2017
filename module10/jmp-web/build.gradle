@@ -1,0 +1,29 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath "org.akhikhl.gretty:gretty:+"
+    }
+}
+
+apply plugin: 'war'
+apply plugin: 'org.akhikhl.gretty'
+
+gretty {
+    httpPort = 8081
+    contextPath = '/jmp/'
+    servletContainer = 'tomcat8'
+}
+
+dependencies {
+    compile project(':jmp-service')
+            project(':jmp-model')
+    compile "org.springframework:spring-webmvc:$spring_version",
+            "org.springframework:spring-web:$spring_version",
+            "org.springframework:spring-context-support:$spring_version",
+            "javax.servlet:javax.servlet-api:",
+            "org.thymeleaf:thymeleaf:$thymeleaf_version",
+            "org.thymeleaf:thymeleaf-spring4:$thymeleaf_version"
+}

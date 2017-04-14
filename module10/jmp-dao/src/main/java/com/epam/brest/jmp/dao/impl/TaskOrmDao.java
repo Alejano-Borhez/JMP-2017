@@ -1,5 +1,7 @@
 package com.epam.brest.jmp.dao.impl;
 
+import static java.util.stream.Collectors.toCollection;
+
 import com.epam.brest.jmp.dao.ObjectRelationalDAO;
 import com.epam.brest.jmp.dao.TaskDao;
 import com.epam.brest.jmp.dao.mapper.EntityRowMapper;
@@ -10,7 +12,9 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * Implementation of {@link TaskDao} using in-memory storage
@@ -30,8 +34,7 @@ public class TaskOrmDao implements ObjectRelationalDAO<Task, Integer>, TaskDao {
 
     @Override
     public Collection<Task> getAllTaskOfAUser(Integer userId) {
-
-        return null;
+        return readAll().stream().filter(task -> Objects.equals(task.getUserId(), userId)).collect(toCollection(ArrayList::new));
     }
 
     @Override
