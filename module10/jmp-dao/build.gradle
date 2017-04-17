@@ -1,5 +1,13 @@
+apply from: file("${rootProject.projectDir}/gradle/integrationTest.gradle")
+
+if (profile == 'integration') {
+    test.dependsOn integrationTest
+}
+
 dependencies {
     compile project(':jmp-model')
     compile "org.apache.commons:commons-lang3:${apache_commons_lang_version}"
     compile "mysql:mysql-connector-java:${mysql_connector_version}"
+
+    testCompile "org.hsqldb:hsqldb:${hsql_connector_version}"
 }

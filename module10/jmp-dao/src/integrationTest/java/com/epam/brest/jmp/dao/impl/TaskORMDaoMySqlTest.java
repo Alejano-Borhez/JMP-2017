@@ -11,7 +11,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 
 import com.epam.brest.jmp.model.Task;
 import com.epam.brest.jmp.model.exceptions.DaoException;
-import com.epam.brest.jmp.test.config.TestDaoConfig;
+import com.epam.brest.jmp.test.config.TestDaoIntegrationConfig;
 import org.apache.logging.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
@@ -21,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,32 +33,22 @@ import java.util.Date;
  * Created by alexander_borohov on 31.3.17.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = TestDaoConfig.class)
-@ActiveProfiles("INMEMORY")
+@ContextConfiguration(classes = TestDaoIntegrationConfig.class)
 @Transactional
-public class TaskORMDaoMySQLTest {
+public class TaskORMDaoMySqlTest {
     private static final Logger LOGGER = getLogger();
 
     private Task testTaskFirst;
-    private Task testTaskSecond;
-    private Task testTaskThird;
     private Task testTaskFourth;
-    private static Collection<Task> tasksInitialList;
-    private final Integer TEST_USER_ID = 1;
-    private final Integer TEST_USER_NEW_ID = 33;
-    private final Integer TEST_TASK_ID = 2;
-    private final String TEST_TASK_NAME_FIRST = "test1 name";
-    private final String TEST_TASK_NAME_SECOND = "test2 name";
-    private final String TEST_TASK_NAME_THIRD = "test3 name";
-    private final String TEST_TASK_NAME_FOURTH = "test4 name";
-    private final String TEST_TASK_DESC_FIRST = "test task 1 description";
-    private final String TEST_TASK_DESC_SECOND = "test task 2 description";
-    private final String TEST_TASK_DESC_THIRD = "test task 3 description";
-    private final String TEST_TASK_DESC_FOURTH = "test task 4 description";
-    private final Date TEST_TASK_DATE_FIRST = Date.from(new Date().toInstant().plus(1, DAYS));
-    private final Date TEST_TASK_DATE_SECOND = Date.from(new Date().toInstant().plus(2, DAYS));
-    private final Date TEST_TASK_DATE_THIRD = Date.from(new Date().toInstant().plus(3, DAYS));
-    private final Date TEST_TASK_DATE_FOURTH = Date.from(new Date().toInstant().plus(4, DAYS));
+    private static final Integer TEST_USER_ID = 1;
+    private static final Integer TEST_USER_NEW_ID = 33;
+    private static final Integer TEST_TASK_ID = 2;
+    private static final String TEST_TASK_NAME_FIRST = "test1 name";
+    private static final String TEST_TASK_NAME_FOURTH = "test4 name";
+    private static final String TEST_TASK_DESC_FIRST = "test task 1 description";
+    private static final String TEST_TASK_DESC_THIRD = "test task 3 description";
+    private static final Date TEST_TASK_DATE_FIRST = Date.from(new Date().toInstant().plus(1, DAYS));
+    private static final Date TEST_TASK_DATE_FOURTH = Date.from(new Date().toInstant().plus(4, DAYS));
 
     @Autowired
     TaskOrmDao taskDao;
@@ -67,8 +56,6 @@ public class TaskORMDaoMySQLTest {
     @Before
     public void setUp() throws Exception {
         testTaskFirst = new Task(TEST_TASK_NAME_FIRST, TEST_TASK_DESC_FIRST, TEST_TASK_DATE_FIRST, TEST_USER_ID);
-        testTaskSecond = new Task(TEST_TASK_NAME_SECOND, TEST_TASK_DESC_SECOND, TEST_TASK_DATE_SECOND, TEST_USER_ID);
-        testTaskThird = new Task(TEST_TASK_NAME_THIRD, TEST_TASK_DESC_THIRD, TEST_TASK_DATE_THIRD, TEST_USER_ID);
         testTaskFourth = new Task(TEST_TASK_NAME_FOURTH, TEST_TASK_DESC_THIRD, TEST_TASK_DATE_FOURTH, TEST_USER_NEW_ID);
     }
 

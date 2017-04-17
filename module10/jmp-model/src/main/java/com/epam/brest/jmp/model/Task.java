@@ -11,8 +11,6 @@ import com.epam.brest.jmp.dao.annotations.Table;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.Date;
 import java.util.Objects;
 
@@ -22,8 +20,6 @@ import java.util.Objects;
  */
 @Table("tasks")
 public class Task implements Entity<Integer> {
-    public static final String DATE_PATTERN = "yyyy-MM-dd";
-
     @Id("task_id")
     private Integer id;
     @Field(field = "user_id", dataType = NUMBER)
@@ -135,9 +131,6 @@ public class Task implements Entity<Integer> {
 
     @Override
     public String toString() {
-        DateTimeFormatterBuilder builder = new DateTimeFormatterBuilder();
-        builder.appendPattern(DATE_PATTERN);
-        DateTimeFormatter dateTimeFormatter = builder.toFormatter();
         return "Task{" +
                 "id=" + id +
                 ", userId=" + userId +

@@ -28,7 +28,7 @@ import java.util.Map;
 @ContextConfiguration(classes = TestDaoConfig.class)
 @Transactional
 @ActiveProfiles("INMEMORY")
-public class UserORMDaoMySQLTest {
+public class UserORMDaoInMemoTest {
     private static final Integer TEST_USER_ID = 1;
     private static final String TEST_USER_NAME_FIRST = "USER NAME 1";
     private static final String TEST_USER_NAME_SECOND = "USER SURNAME 2";

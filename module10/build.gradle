@@ -29,6 +29,7 @@ allprojects {
     apply plugin: 'net.saliman.cobertura'
     apply plugin: 'java'
     apply plugin: 'checkstyle'
+    apply plugin: 'findbugs'
 
     version = '1.0-SNAPSHOT'
 
