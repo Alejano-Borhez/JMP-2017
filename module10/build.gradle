@@ -31,6 +31,8 @@ allprojects {
     apply plugin: 'checkstyle'
     apply plugin: 'findbugs'
 
+    findbugs.ignoreFailures = true
+
     version = '1.0-SNAPSHOT'
 
 //    test.ignoreFailures = true
@@ -57,3 +59,4 @@ project(':jmp-dao') {
         compile test
     }
 }
+

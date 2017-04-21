@@ -27,3 +27,7 @@ dependencies {
             "org.thymeleaf:thymeleaf:$thymeleaf_version",
             "org.thymeleaf:thymeleaf-spring4:$thymeleaf_version"
 }
+
+war {
+    archiveName = 'jmp.war'
+}
