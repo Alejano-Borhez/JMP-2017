@@ -1,3 +1,18 @@
+#CDP Module JPM12: Infrastructure Apache/Tomcat
+1. Configure the Tomcat and Apache integration with mod_jk.so module.
+2. Build multi-module web application and deploy with tomcat manager application (text/script mode).
+3. Static (html, css, js) publish to apache, dynamic to tomcat.
+4. Test and write readme, how mentor can deploy it and check that it is working.
+
+##HowTo:
+
+1. Install apache + mod_jk.so module + set config and workers to map tomcat's urls to apache's
+2. Install tomcat and enable ajp13 connector
+3. Set tomcat_home in gradle.properties
+4. Run `gradlew clean build -PdeployTomcat=true` (omit `deployTomcat` gradle property or use any other than `true` value to skip war deployment)
+5. Check that app is available at `http://{tomcat.host}:{tomcat.port}/jmp/user/1/user/4`
+6. Check that app is available at `http://{apache.host}:80/jmp/user/1/user/4`
+7. Deployment is also made using Jenkins job that builds a gradle project and deploys it
 #CDP Module JMP7.7: Spring Core  
 
 Gradle:

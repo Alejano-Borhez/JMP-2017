@@ -19,7 +19,7 @@ gretty {
 
 dependencies {
     compile project(':jmp-service')
-            project(':jmp-model')
+    project(':jmp-model')
     compile "org.springframework:spring-webmvc:$spring_version",
             "org.springframework:spring-web:$spring_version",
             "org.springframework:spring-context-support:$spring_version",
@@ -30,4 +30,14 @@ dependencies {
 
 war {
     archiveName = 'jmp.war'
+    if (project.hasProperty('deployTomcat')) {
+        if (project.property('deployTomcat') == 'true') {
+            doLast {
+                copy {
+                    from fileTree("${buildDir}/libs") { include('*.war') }
+                    into "${tomcat_home}/webapps/"
+                }
+            }
+        }
+    }
 }
