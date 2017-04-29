@@ -14,23 +14,22 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * Created by alexander_borohov on 14.4.17.
  */
 @Controller
-public class TaskController {
+public class UserController {
     @Autowired
     private ServiceFacade serviceFacade;
 
-    @RequestMapping("/user/{userId}/task/{taskId}")
+    @RequestMapping("/user/{userId}")
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String getTask(@PathVariable("userId") Integer userId,
-                          @PathVariable("taskId") Integer taskId,
+    public String getUser(@PathVariable("userId") Integer userId,
                           Model model) {
         model.addAttribute("user", serviceFacade.getUserById(userId));
-        model.addAttribute("task", serviceFacade.getTaskById(taskId));
-        return "task";
+        model.addAttribute("tasks", serviceFacade.getAllTaskOfAUser(userId));
+        return "user";
     }
 
-    @RequestMapping("/tasks")
-    public String getTasks(Model model) {
-        model.addAttribute("tasks", serviceFacade.showAllTasks());
-        return "tasks";
+    @RequestMapping("/users")
+    public String getUsers(Model model) {
+        model.addAttribute("users", serviceFacade.showAllUsers());
+        return "users";
     }
 }
