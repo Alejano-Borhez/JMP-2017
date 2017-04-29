@@ -5,15 +5,34 @@
     <meta charset="utf-8"/>
 </head>
 <body>
+<!--/*@thymesVar id="user" type="com.epam.brest.jmp.model.User"*/-->
+<!--/*@thymesVar id="task" type="com.epam.brest.jmp.model.Task"*/-->
+
 <h1>JMP 2017 task manager</h1>
-<p>
-    Hello <!--/*@thymesVar id="user" type="com.epam.brest.jmp.model.User"*/-->
-    <span th:text="${user.getName()}">Peter</span>!!!
+
+<div>
+    <a th:text="#{nav.back}" href="#" onclick="window.history.back()"></a>
+</div>
+
+<p th:inline="text">
+    [[#{app.greeting}]]
+    <span th:text="${user.name}">Peter</span>!!!
 </p>
-<p>
-    Task:
-    <!--/*@thymesVar id="task" type="com.epam.brest.jmp.model.Task"*/-->
-    <span th:text="${task.getId()}">Empty</span>
-</p>
+<table th:object="${task}">
+    <tr>
+        <td th:text="#{tasks.label.name}"></td>
+        <td th:text="*{name}"></td>
+    </tr>
+
+    <tr>
+        <td th:text="#{tasks.label.description}"></td>
+        <td th:text="*{description}"></td>
+    </tr>
+
+    <tr>
+        <td th:text="#{tasks.label.owner}"></td>
+        <td th:text="${user.name}"></td>
+    </tr>
+</table>
 </body>
 </html>
