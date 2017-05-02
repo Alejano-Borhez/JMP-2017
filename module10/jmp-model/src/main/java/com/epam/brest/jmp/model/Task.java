@@ -13,6 +13,9 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.Objects;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Simple entity to represent a Task in a program
@@ -21,12 +24,19 @@ import java.util.Objects;
 @Table("tasks")
 public class Task implements Entity<Integer> {
     @Id("task_id")
+    @Min(0)
     private Integer id;
     @Field(field = "user_id", dataType = NUMBER)
+    @NotNull
+    @Min(0)
     private Integer userId;
     @Field(field = "task_name", dataType = TEXT)
+    @NotNull
+    @Size(min = 3, max = 256)
     private String name;
     @Field(field = "task_desc", dataType = TEXT)
+    @NotNull
+    @Size(min = 3, max = 256)
     private String description;
     @Field(field = "task_creation_date", dataType = DATE)
     private Date creationDate;

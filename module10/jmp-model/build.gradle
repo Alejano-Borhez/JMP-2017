@@ -1,0 +1,6 @@
+dependencies {
+    compile "javax.validation:validation-api:$validation_api",
+            "org.hibernate:hibernate-validator:$hibernate_version",
+            "org.hibernate:hibernate-validator-cdi:$hibernate_version",
+            "org.glassfish:javax.el:$el_version"
+}

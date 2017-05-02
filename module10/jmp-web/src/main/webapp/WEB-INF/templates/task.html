@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+
+<head th:include="fragments :: head"></head>
+
+<body>
+<!--/*@thymesVar id="user" type="com.epam.brest.jmp.model.User"*/-->
+<!--/*@thymesVar id="task" type="com.epam.brest.jmp.model.Task"*/-->
+<div class="container-fluid">
+    <nav th:replace="fragments :: header"></nav>
+
+    <div class="card" id="home">
+        <div class="card-header">
+            <span th:text="#{task.task}"></span>
+            <a th:text="#{nav.back}" href="#" onclick="window.history.back()"></a>
+        </div>
+
+        <table class="table-responsive" th:object="${task}">
+            <tr>
+                <td th:text="#{tasks.label.name}"></td>
+                <td th:text="*{name}"></td>
+            </tr>
+            <tr>
+                <td th:text="#{tasks.label.description}"></td>
+                <td th:text="*{description}"></td>
+            </tr>
+            <tr>
+                <td th:text="#{tasks.label.owner}"></td>
+                <td><a th:text="${user.name}" th:href="@{/user/{userId}(userId=*{userId})}">Task Owner</a></td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+<footer th:include="fragments :: footerCommon"></footer>
+
+</body>
+
+
+</html>

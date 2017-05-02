@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+
+<head th:include="fragments :: head"></head>
+
+<body>
+<!--/*@thymesVar id="user" type="com.epam.brest.jmp.model.User"*/-->
+<!--/*@thymesVar id="task" type="com.epam.brest.jmp.model.Task"*/-->
+<!--/*@thymesVar id="tasks" type="java.util.List<com.epam.brest.jmp.model.Task>"*/-->
+<div class="container-fluid">
+    <nav th:replace="fragments :: header"></nav>
+
+    <div class="card" id="home">
+        <div class="card-header">
+            <a th:text="#{nav.back}" href="#" onclick="window.history.back()"></a>
+            <p th:inline="text">
+                [[#{user.page.title}]]
+                <span th:text="${user.name}">Peter</span>:
+            </p>
+        </div>
+
+        <div class="card-block">
+            <table class="table-responsive table-bordered" th:object="${user}">
+                <tr>
+                    <td th:text="#{users.label.name}"></td>
+                    <td th:text="*{name}"></td>
+                </tr>
+
+                <tr>
+                    <td th:text="#{users.label.email}"></td>
+                    <td th:text="*{email}"></td>
+                </tr>
+
+            </table>
+        </div>
+        <div class="card-block">
+            <p th:text="#{user.tasks.all}">
+                Task:
+            <div th:replace="fragments::tasks"></div>
+        </div>
+
+        <div class="card-footer">
+            <a th:href="@{/task/new}" th:text="#{tasks.add}">Add new Task</a>
+        </div>
+    </div>
+
+
+</div>
+
+<footer th:include="fragments :: footerCommon"></footer>
+
+</body>
+
+
+</html>

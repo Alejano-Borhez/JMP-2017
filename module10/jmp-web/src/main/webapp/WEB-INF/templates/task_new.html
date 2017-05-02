@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+
+<head th:include="fragments :: head"></head>
+
+<body>
+<!--/*@thymesVar id="user" type="com.epam.brest.jmp.model.User"*/-->
+<!--/*@thymesVar id="task" type="com.epam.brest.jmp.model.Task"*/-->
+<div class="container-fluid">
+    <nav th:replace="fragments :: header"></nav>
+
+    <div class="card" id="home">
+        <div class="card-header fa-2x">
+            <span th:text="#{tasks.add}"></span>
+            <a th:text="#{nav.back}" href="#" onclick="window.history.back()"></a>
+        </div>
+        <form id="taskForm" class="form-group" th:object="${task}" th:action="@{/task/new}" method="post">
+
+            <label th:for="${#fields.idFromName('id')}"></label>
+            <input type="hidden" th:field="*{id}" th:errorClass="fieldError"/>
+
+            <label th:for="${#fields.idFromName('userId')}"
+                   th:text="#{tasks.label.owner}"
+                   class="form-control-label"></label>
+            <input type="number"
+                   th:field="*{userId}"
+                   th:errorClass="fieldError"
+                   class="form-control"/>
+
+            <label th:for="${#fields.idFromName('name')}"
+                   th:text="#{tasks.label.name}"
+                   class="col-sm-2 form-control-label"></label>
+            <input type="text"
+                   th:field="*{name}"
+                   th:errorClass="fieldError"
+                   class="form-control"/>
+            <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+
+            <label th:for="${#fields.idFromName('description')}"
+                   th:text="#{tasks.label.description}"
+                   class="col-sm-2 form-control-label"></label>
+            <input type="text"
+                   th:field="*{description}"
+                   th:errorClass="fieldError"
+                   class="form-control"
+            />
+            <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+
+            <label th:for="${#fields.idFromName('deadLine')}" th:text="#{tasks.label.deadline}"></label>
+            <input id="datepicker" type="text" th:field="*{{deadLine}}" th:placeholder="#{date.format}"
+                   th:errorClass="fieldError"/>
+            <div th:if="${#fields.hasErrors('deadLine')}" th:errors="*{deadLine}"></div>
+
+            <label th:for="${#fields.idFromName('creationDate')}"></label>
+            <input type="hidden" th:field="*{{creationDate}}" th:errorClass="fieldError"/>
+
+            <button type="submit" th:text="#{task.new.submit}">Create!</button>
+
+        </form>
+
+    </div>
+
+
+</div>
+
+<footer th:include="fragments :: footerCommon"></footer>
+
+</body>
+
+
+</html>

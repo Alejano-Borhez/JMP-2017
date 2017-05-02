@@ -1,0 +1,11 @@
+body {
+    padding-top: 70px;
+}
+
+.fieldError {
+    background-color: #761c19;
+}
+
+#lang-selector {
+    text-transform: capitalize;
+}

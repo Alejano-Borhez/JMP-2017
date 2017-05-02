@@ -19,13 +19,14 @@ gretty {
 
 dependencies {
     compile project(':jmp-service')
-    project(':jmp-model')
+    compile project(':jmp-model')
     compile "org.springframework:spring-webmvc:$spring_version",
             "org.springframework:spring-web:$spring_version",
             "org.springframework:spring-context-support:$spring_version",
-            "javax.servlet:javax.servlet-api:",
+            "javax.servlet:javax.servlet-api:$servlet_api",
             "org.thymeleaf:thymeleaf:$thymeleaf_version",
-            "org.thymeleaf:thymeleaf-spring4:$thymeleaf_version"
+            "org.thymeleaf:thymeleaf-spring4:$thymeleaf_version",
+            "org.thymeleaf.extras:thymeleaf-extras-springsecurity4:$thymeleaf_version"
 }
 
 war {

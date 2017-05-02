@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+
+<head th:include="fragments :: head"></head>
+
+<body>
+<!--<div class="container">-->
+<nav th:replace="fragments :: header"></nav>
+<div class="container-fluid">
+    <div class="card" id="home">
+        <div class="card-header fa-2x"><a th:text="#{app.greeting}"></a></div>
+        <div class="card-block">
+
+            <div class="list-group">
+                <span th:text="#{app.greeting}"></span>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<footer th:include="fragments :: footerCommon"></footer>
+
+<!--</div>-->
+</body>
+
+
+</html>

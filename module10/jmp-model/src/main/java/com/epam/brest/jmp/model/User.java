@@ -5,8 +5,12 @@ import static com.epam.brest.jmp.dao.annotations.Field.DataType.TEXT;
 import com.epam.brest.jmp.dao.annotations.Field;
 import com.epam.brest.jmp.dao.annotations.Id;
 import com.epam.brest.jmp.dao.annotations.Table;
+import org.hibernate.validator.constraints.Email;
 
 import java.util.Objects;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Simple entity to represent a User of a system
@@ -15,12 +19,19 @@ import java.util.Objects;
 @Table("users")
 public class User implements Entity<Integer> {
     @Id("user_id")
+    @Min(0)
     private Integer id;
     @Field(field = "user_name", dataType = TEXT)
+    @NotNull
+    @Size(min = 3, max = 256)
     private String name;
     @Field(field = "user_surname", dataType = TEXT)
+    @NotNull
+    @Size(min = 3, max = 256)
     private String surname;
     @Field(field = "user_email", dataType = TEXT)
+    @NotNull
+    @Email(regexp = "[a-zA-Z0-9._-]+@[a-zA-Z]+\\.[a-zA-Z]{2,4}")
     private String email;
 
     public User() {

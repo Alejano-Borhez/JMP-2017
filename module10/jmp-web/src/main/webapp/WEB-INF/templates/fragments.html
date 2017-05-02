@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="head">
+    <title th:text="#{app.name}">JMP 2017 task manager</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="/resources/css/application.css"
+          th:href="@{/resources/css/application.css}">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/css/bootstrap/bootstrap.css"
+          th:href="@{/resources/css/bootstrap/bootstrap.css}">
+    <script src="/resources/js/jquery.min.js"
+            th:src="@{/resources/js/jquery.min.js}"></script>
+    <script src="/resources/js/tether.min.js"
+            th:src="@{/resources/js/tether.min.js}"></script>
+    <script src="/resources/js/bootstrap.min.js"
+            th:src="@{/resources/js/bootstrap.min.js}"></script>
+    <script src="/resources/js/main.js" th:src="@{/resources/js/main.js}"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script th:inline="javascript">
+        $(function () {
+            $("#datepicker").datepicker({
+                dateFormat: [[#{date.format.ui}]]
+            });
+        });
+    </script>
+</head>
+
+<li th:fragment="lang-selector" id="lang-selector" class="nav-item dropdown"
+    th:with="pageLocale = ${#strings.capitalize(#strings.substring(#locale, 0, 2))}">
+    <a href="#" class="nav-link dropdown-toggle"
+       data-toggle="dropdown" role="button"
+       th:text="${pageLocale}">
+    </a>
+    <div class="dropdown-menu dropdown-menu-right">
+        <a class="dropdown-item" href="#" onclick="locale('en')" th:text="#{locale.lang.en}"
+           th:classappend="${pageLocale}== 'En'?'disabled':''">English</a>
+        <a class="dropdown-item" href="#" onclick="locale('ru')" th:text="#{locale.lang.ru}"
+           th:classappend="${pageLocale}== 'Ru'?'disabled':''">Russian</a>
+    </div>
+</li>
+
+<nav th:fragment="header" class="navbar navbar-light navbar-fixed-top navbar-full bg-faded">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse"
+                    data-target="#navbar"></button>
+            <span class="navbar-brand" th:text="#{app.name}">Project name</span>
+        </div>
+        <div class="navbar-toggleable-xs collapse float-sm-right float-xs-left" id="navbar">
+            <ul class="nav navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/tasks}" th:text="#{tasks.all}">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/users}" th:text="#{users.all}">Items</a>
+                </li>
+                <li th:replace="fragments :: lang-selector"></li>
+
+                <!--<li th:if="${ __${@appConstants.LOGIN}__ != null}" class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle"
+                       data-toggle="dropdown" role="button"
+                       th:text="${__${@appConstants.LOGIN}__}">Your login</a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item nav-link" th:href="@{/logoutsso}" th:text="#{navbar.logout}">Log Out</a>
+                    </div>
+                </li>
+                <li class="nav-item" th:if="${__${@appConstants.LOGIN}__ == null}">
+                    <a class="nav-link" th:href="@{/login}" th:text="#{navbar.login}">Log In</a>
+                </li>-->
+            </ul>
+        </div>
+    </div>
+    <div class="device-xs hidden-sm-up"></div>
+    <div class="device-sm hidden-md-up hidden-xs-down"></div>
+    <div class="device-md hidden-lg-up hidden-sm-down"></div>
+    <div class="device-lg hidden-xl-up hidden-md-down"></div>
+    <div class="device-xl hidden-lg-down"></div>
+</nav>
+
+<div th:fragment="tasks" th:object="${tasks}">
+    <!--/*@thymesVar id="tasks" type="java.util.List<com.epam.brest.jmp.model.Task>"*/-->
+    <!--/*@thymesVar id="task" type="com.epam.brest.jmp.model.Task"*/-->
+    <table class="table-responsive table-bordered">
+        <tr>
+            <th th:text="#{tasks.label.id}">Task id</th>
+            <th th:text="#{tasks.label.name}">Task name</th>
+            <th th:text="#{tasks.label.description}">Task description</th>
+            <th th:text="#{tasks.label.owner}">Task owner</th>
+        </tr>
+        <tr th:each="task,row: ${tasks}" th:object="${task}" th:class="${row.odd}? 'odd'">
+            <td><a th:text="*{id}"
+                   th:href="@{/user/{userId}/task/{taskId}(userId=*{userId},taskId=*{id})}"></a>
+            </td>
+            <td th:text="*{name}">Task Name</td>
+            <td th:text="*{description}">Task description</td>
+            <td><a th:text="*{userId}" th:href="@{/user/{userId}(userId=*{userId})}">Task Owner</a></td>
+        </tr>
+    </table>
+</div>
+
+<div th:fragment="users" th:object="${users}">
+    <!--/*@thymesVar id="users" type="java.util.List<com.epam.brest.jmp.model.User>"*/-->
+    <!--/*@thymesVar id="user" type="com.epam.brest.jmp.model.User"*/-->
+    <table class="table-responsive table-bordered">
+        <tr>
+            <th th:text="#{users.label.id}">User id</th>
+            <th th:text="#{users.label.name}">User name</th>
+            <th th:text="#{users.label.surname}">User name</th>
+            <th th:text="#{users.label.email}">User email</th>
+        </tr>
+        <tr th:each="user,row: ${users}" th:object="${user}" th:class="${row.odd}? 'odd'">
+            <td><a th:text="*{id}" th:href="@{/user/{userId}(userId=*{id})}"></a></td>
+            <td th:text="*{surname}">User Name</td>
+            <td th:text="*{name}">User Name</td>
+            <td th:text="*{email}">User email</td>
+        </tr>
+    </table>
+</div>
+
+<footer th:fragment="footerCommon">
+</footer>
+
+</html>

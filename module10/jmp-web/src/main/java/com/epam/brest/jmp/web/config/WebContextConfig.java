@@ -1,5 +1,6 @@
 package com.epam.brest.jmp.web.config;
 
+import com.epam.brest.jmp.web.util.DateFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -7,6 +8,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.format.Formatter;
+import org.springframework.format.FormatterRegistry;
+import org.springframework.format.support.FormattingConversionServiceFactoryBean;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -17,11 +22,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ITemplateResolver;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Configuration of WebApplication context
@@ -61,6 +70,7 @@ public class WebContextConfig extends WebMvcConfigurerAdapter {
         SpringTemplateEngine engine = new SpringTemplateEngine();
         engine.setTemplateResolver(templateResolver());
         engine.setMessageSource(messageSource());
+        engine.addDialect(new SpringSecurityDialect());
         return engine;
     }
 
@@ -68,7 +78,7 @@ public class WebContextConfig extends WebMvcConfigurerAdapter {
     public ITemplateResolver templateResolver() {
         SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
         resolver.setApplicationContext(applicationContext);
-        resolver.setPrefix("/templates/");
+        resolver.setPrefix("/WEB-INF/templates/");
         resolver.setSuffix(".html");
         resolver.setTemplateMode(TemplateMode.HTML);
         return resolver;
@@ -95,6 +105,21 @@ public class WebContextConfig extends WebMvcConfigurerAdapter {
         LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
         interceptor.setParamName("loc");
         return interceptor;
+    }
+
+    @Bean
+    public ConversionService conversionService(@Autowired DateFormatter dateFormatter) {
+        FormattingConversionServiceFactoryBean service = new FormattingConversionServiceFactoryBean();
+        Set<Formatter> formatters = new HashSet<>();
+        formatters.add(dateFormatter);
+        service.setFormatters(formatters);
+        return service.getObject();
+    }
+
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addFormatter(applicationContext.getBean(DateFormatter.class));
     }
 
     @Override
