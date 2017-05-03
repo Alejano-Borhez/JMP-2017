@@ -1,3 +1,15 @@
+#CDP Module JPM13: Spring MVC
+
+1. Implement Spring Controller with template resolver
+2. Implement Locale Resolver
+3. Implement Spring Security
+
+##HowTo:
+Analogous to Previous module.
+Use credentials: admin 123
+
+
+
 #CDP Module JPM12: Infrastructure Apache/Tomcat
 1. Configure the Tomcat and Apache integration with mod_jk.so module.
 2. Build multi-module web application and deploy with tomcat manager application (text/script mode).
