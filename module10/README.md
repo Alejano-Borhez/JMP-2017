@@ -1,3 +1,10 @@
+#CDP Module JPM14: JPA with Hibernate
+1. add Hibernate dependency, perform a standart setup
+2. create a few related entities, annotate persistent fields. Try to use maximum framework capabilities (Tables mapping strategies, ManyToOne/OneToMany relationships, Cascade, orpahRemoval)
+3. add Repository (DAO) layer with commands/queries, which peform operations on created entities
+4. invoke Repository from Service layer
+5. bind Service layer with Controllers
+
 #CDP Module JPM13: Spring MVC
 
 1. Implement Spring Controller with template resolver
