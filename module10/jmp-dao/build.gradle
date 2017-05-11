@@ -5,7 +5,7 @@ if (profile == 'integration') {
 }
 
 dependencies {
-    compile project(':jmp-model')
+    compile project(':jmp-dao-api')
     compile "org.apache.commons:commons-lang3:${apache_commons_lang_version}"
     compile "mysql:mysql-connector-java:${mysql_connector_version}"
 
