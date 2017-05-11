@@ -3,3 +3,6 @@ include 'jmp-model',
         'jmp-dao',
         'jmp-service',
         'jmp-web'
+include 'jmp-dao-hibernate'
+include 'jmp-dao-api'
+
