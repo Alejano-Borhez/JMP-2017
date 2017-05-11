@@ -1,13 +1,12 @@
 package com.epam.brest.jmp.dao;
 
-import static com.epam.brest.jmp.dao.mapper.ReflectUtils.getField;
-import static com.epam.brest.jmp.dao.mapper.ReflectUtils.getStringObjectMap;
 import static java.lang.String.format;
 
-import com.epam.brest.jmp.dao.annotations.Field;
-import com.epam.brest.jmp.dao.annotations.Id;
-import com.epam.brest.jmp.dao.annotations.Table;
+import com.epam.brest.jmp.dao.annotations.OrmField;
+import com.epam.brest.jmp.dao.annotations.OrmId;
+import com.epam.brest.jmp.dao.annotations.OrmTable;
 import com.epam.brest.jmp.dao.mapper.EntityRowMapper;
+import com.epam.brest.jmp.dao.mapper.ReflectUtils;
 import com.epam.brest.jmp.model.Entity;
 import com.epam.brest.jmp.model.exceptions.DaoException;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -35,7 +34,7 @@ public interface ObjectRelationalDAO<T extends Entity<ID>, ID> extends DAO<T, ID
 
     @Override
     default ID create(T entity) {
-        Map<String, Object> params = getStringObjectMap(entity);
+        Map<String, Object> params = ReflectUtils.getStringObjectMap(entity);
 
         if (params.isEmpty()) throw new DaoException(entity, "Could not read fields");
 
@@ -43,7 +42,7 @@ public interface ObjectRelationalDAO<T extends Entity<ID>, ID> extends DAO<T, ID
 
         parameterSource.addValues(params);
 
-        String tableName = entity.getClass().getAnnotation(Table.class).value();
+        String tableName = entity.getClass().getAnnotation(OrmTable.class).value();
 
         String fieldNames = "";
         String values = "";
@@ -71,8 +70,8 @@ public interface ObjectRelationalDAO<T extends Entity<ID>, ID> extends DAO<T, ID
 
     @Override
     default T read(ID id) {
-        String tableName = getEntityType().getAnnotation(Table.class).value();
-        String entityIdFieldName = FieldUtils.getFieldsWithAnnotation(getEntityType(), Id.class)[0].getAnnotation(Id.class).value();
+        String tableName = getEntityType().getAnnotation(OrmTable.class).value();
+        String entityIdFieldName = FieldUtils.getFieldsWithAnnotation(getEntityType(), OrmId.class)[0].getAnnotation(OrmId.class).value();
         String entityIdQueryLabel = ":".concat(entityIdFieldName);
         String selectQuery = format("SELECT * FROM %s WHERE %s = %s", tableName, entityIdFieldName, entityIdQueryLabel);
 
@@ -91,14 +90,14 @@ public interface ObjectRelationalDAO<T extends Entity<ID>, ID> extends DAO<T, ID
 
     @Override
     default T update(T entity) {
-        java.lang.reflect.Field idField = FieldUtils.getFieldsWithAnnotation(entity.getClass(), Id.class)[0];
-        String entityIdFieldName = idField.getAnnotation(Id.class).value();
+        java.lang.reflect.Field idField = FieldUtils.getFieldsWithAnnotation(entity.getClass(), OrmId.class)[0];
+        String entityIdFieldName = idField.getAnnotation(OrmId.class).value();
         String entityIdQueryLabel = ":".concat(entityIdFieldName);
 
-        String tableName = entity.getClass().getAnnotation(Table.class).value();
-        Map<String, Object> params = getStringObjectMap(entity);
+        String tableName = entity.getClass().getAnnotation(OrmTable.class).value();
+        Map<String, Object> params = ReflectUtils.getStringObjectMap(entity);
         try {
-            params.put(entityIdFieldName, getField(entity, idField));
+            params.put(entityIdFieldName, ReflectUtils.getField(entity, idField));
         } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException e) {
             throw new DaoException(idField, "Id field is not present in a model");
         }
@@ -107,8 +106,8 @@ public interface ObjectRelationalDAO<T extends Entity<ID>, ID> extends DAO<T, ID
 
         StringBuilder updateStringBuilder = new StringBuilder();
 
-        for (java.lang.reflect.Field field: FieldUtils.getFieldsWithAnnotation(entity.getClass(), Field.class)) {
-            String columnName = field.getAnnotation(Field.class).field();
+        for (java.lang.reflect.Field field: FieldUtils.getFieldsWithAnnotation(entity.getClass(), OrmField.class)) {
+            String columnName = field.getAnnotation(OrmField.class).field();
             updateStringBuilder.append(columnName).append(" = :").append(columnName).append(", ");
         }
 
@@ -125,8 +124,8 @@ public interface ObjectRelationalDAO<T extends Entity<ID>, ID> extends DAO<T, ID
 
     @Override
     default Boolean delete(ID id) {
-        String tableName = getEntityType().getAnnotation(Table.class).value();
-        String entityIdFieldName = FieldUtils.getFieldsWithAnnotation(getEntityType(), Id.class)[0].getAnnotation(Id.class).value();
+        String tableName = getEntityType().getAnnotation(OrmTable.class).value();
+        String entityIdFieldName = FieldUtils.getFieldsWithAnnotation(getEntityType(), OrmId.class)[0].getAnnotation(OrmId.class).value();
         String entityIdQueryLabel = ":".concat(entityIdFieldName);
         String deleteQuery = format("DELETE FROM %s WHERE %s = %s", tableName, entityIdFieldName, entityIdQueryLabel);
 
@@ -143,7 +142,7 @@ public interface ObjectRelationalDAO<T extends Entity<ID>, ID> extends DAO<T, ID
 
     @Override
     default Collection<T> readAll() {
-        String tableName = getEntityType().getAnnotation(Table.class).value();
+        String tableName = getEntityType().getAnnotation(OrmTable.class).value();
 
         String getAllQuery = format("SELECT * FROM %s", tableName);
 

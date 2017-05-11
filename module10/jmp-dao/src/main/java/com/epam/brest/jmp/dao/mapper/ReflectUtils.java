@@ -1,5 +1,6 @@
 package com.epam.brest.jmp.dao.mapper;
 
+import com.epam.brest.jmp.dao.annotations.OrmField;
 import com.epam.brest.jmp.model.exceptions.DaoException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -32,8 +33,8 @@ public class ReflectUtils {
         Map<String, Object> params = new HashMap<>();
 
         try {
-            for (Field field : FieldUtils.getFieldsWithAnnotation(entity.getClass(), com.epam.brest.jmp.dao.annotations.Field.class)) {
-                com.epam.brest.jmp.dao.annotations.Field annotation = field.getAnnotation(com.epam.brest.jmp.dao.annotations.Field.class);
+            for (Field field : FieldUtils.getFieldsWithAnnotation(entity.getClass(), OrmField.class)) {
+                OrmField annotation = field.getAnnotation(OrmField.class);
                 switch (annotation.dataType()) {
                     case DATE:
                         Date date;

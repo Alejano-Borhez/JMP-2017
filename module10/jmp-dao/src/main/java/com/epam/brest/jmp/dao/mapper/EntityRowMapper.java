@@ -2,7 +2,8 @@ package com.epam.brest.jmp.dao.mapper;
 
 import static com.epam.brest.jmp.dao.mapper.ReflectUtils.setField;
 
-import com.epam.brest.jmp.dao.annotations.Id;
+import com.epam.brest.jmp.dao.annotations.OrmId;
+import com.epam.brest.jmp.dao.annotations.OrmField;
 import com.epam.brest.jmp.model.Entity;
 import com.epam.brest.jmp.model.exceptions.DaoException;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -31,11 +32,11 @@ public class EntityRowMapper<T extends Entity> implements RowMapper<T> {
         try {
             entity = getEntityType().newInstance();
 
-            List<Field> fields = FieldUtils.getFieldsListWithAnnotation(getEntityType(), com.epam.brest.jmp.dao.annotations.Field.class);
+            List<Field> fields = FieldUtils.getFieldsListWithAnnotation(getEntityType(), OrmField.class);
 
             for (Field field : fields) {
-                com.epam.brest.jmp.dao.annotations.Field annotation
-                        = field.getAnnotation(com.epam.brest.jmp.dao.annotations.Field.class);
+                OrmField annotation
+                        = field.getAnnotation(OrmField.class);
                 switch (annotation.dataType()) {
                     case TEXT:
                         setField(entity, field, rs.getString(annotation.field()));
@@ -48,9 +49,9 @@ public class EntityRowMapper<T extends Entity> implements RowMapper<T> {
                 }
             }
 
-            Field idField = FieldUtils.getFieldsWithAnnotation(getEntityType(), Id.class)[0];
+            Field idField = FieldUtils.getFieldsWithAnnotation(getEntityType(), OrmId.class)[0];
 
-            setField(entity, idField, rs.getObject(idField.getAnnotation(Id.class).value()));
+            setField(entity, idField, rs.getObject(idField.getAnnotation(OrmId.class).value()));
 
         } catch (IllegalAccessException | InstantiationException e) {
             throw new DaoException(e.getMessage(), "Mapping an entity");
