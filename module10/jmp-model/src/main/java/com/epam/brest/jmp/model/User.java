@@ -1,13 +1,14 @@
 package com.epam.brest.jmp.model;
 
-import static com.epam.brest.jmp.dao.annotations.Field.DataType.TEXT;
+import static com.epam.brest.jmp.dao.annotations.OrmField.DataType.TEXT;
 
-import com.epam.brest.jmp.dao.annotations.Field;
-import com.epam.brest.jmp.dao.annotations.Id;
-import com.epam.brest.jmp.dao.annotations.Table;
+import com.epam.brest.jmp.dao.annotations.OrmField;
+import com.epam.brest.jmp.dao.annotations.OrmId;
+import com.epam.brest.jmp.dao.annotations.OrmTable;
 import org.hibernate.validator.constraints.Email;
 
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -16,24 +17,35 @@ import javax.validation.constraints.Size;
  * Simple entity to represent a User of a system
  * Created by alexander_borohov on 17.3.17.
  */
-@Table("users")
+@OrmTable("users")
 public class User implements Entity<Integer> {
-    @Id("user_id")
+
+    @OrmId("user_id")
     @Min(0)
+    @Column(name = "user_id")
     private Integer id;
-    @Field(field = "user_name", dataType = TEXT)
+
+    @OrmField(field = "user_name", dataType = TEXT)
     @NotNull
     @Size(min = 3, max = 256)
+    @Column(name = "user_name")
     private String name;
-    @Field(field = "user_surname", dataType = TEXT)
+
+    @OrmField(field = "user_surname", dataType = TEXT)
     @NotNull
     @Size(min = 3, max = 256)
+    @Column(name = "user_surname")
     private String surname;
-    @Field(field = "user_email", dataType = TEXT)
+
+    @OrmField(field = "user_email", dataType = TEXT)
     @NotNull
     @Email(regexp = "[a-zA-Z0-9._-]+@[a-zA-Z]+\\.[a-zA-Z]{2,4}")
+    @Column(name = "user_email")
     private String email;
 
+    /**
+     * Default no-args constructor for Hibernate usage
+     */
     public User() {
     }
 

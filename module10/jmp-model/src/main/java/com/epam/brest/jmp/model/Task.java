@@ -1,18 +1,23 @@
 package com.epam.brest.jmp.model;
 
-import static com.epam.brest.jmp.dao.annotations.Field.DataType.DATE;
-import static com.epam.brest.jmp.dao.annotations.Field.DataType.NUMBER;
-import static com.epam.brest.jmp.dao.annotations.Field.DataType.TEXT;
+import static com.epam.brest.jmp.dao.annotations.OrmField.DataType.DATE;
+import static com.epam.brest.jmp.dao.annotations.OrmField.DataType.NUMBER;
+import static com.epam.brest.jmp.dao.annotations.OrmField.DataType.TEXT;
 import static java.time.temporal.ChronoUnit.DAYS;
 
-import com.epam.brest.jmp.dao.annotations.Field;
-import com.epam.brest.jmp.dao.annotations.Id;
-import com.epam.brest.jmp.dao.annotations.Table;
+import com.epam.brest.jmp.dao.annotations.OrmField;
+import com.epam.brest.jmp.dao.annotations.OrmId;
+import com.epam.brest.jmp.dao.annotations.OrmTable;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -21,28 +26,46 @@ import javax.validation.constraints.Size;
  * Simple entity to represent a Task in a program
  * Created by alexander_borohov on 9.2.17.
  */
-@Table("tasks")
+@OrmTable("tasks")
+@Table(name = "tasks")
 public class Task implements Entity<Integer> {
-    @Id("task_id")
+
+    @OrmId("task_id")
     @Min(0)
+    @Id
+    @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Field(field = "user_id", dataType = NUMBER)
+
+    @OrmField(field = "user_id", dataType = NUMBER)
     @NotNull
     @Min(0)
+    @Column(name = "user_id", nullable = false)
     private Integer userId;
-    @Field(field = "task_name", dataType = TEXT)
+
+    @OrmField(field = "task_name", dataType = TEXT)
     @NotNull
     @Size(min = 3, max = 256)
+    @Column(name = "task_name")
     private String name;
-    @Field(field = "task_desc", dataType = TEXT)
+
+    @OrmField(field = "task_desc", dataType = TEXT)
     @NotNull
     @Size(min = 3, max = 256)
+    @Column(name = "task_desc")
     private String description;
-    @Field(field = "task_creation_date", dataType = DATE)
+
+    @OrmField(field = "task_creation_date", dataType = DATE)
+    @Column(name = "task_creation_date")
     private Date creationDate;
-    @Field(field = "task_deadline_date", dataType = DATE)
+
+    @OrmField(field = "task_deadline_date", dataType = DATE)
+    @Column(name = "task_deadline_date")
     private Date deadLine;
 
+    /**
+     * Default no-args constructor for Hibernate usage
+     */
     public Task() {
     }
 
