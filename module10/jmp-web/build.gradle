@@ -15,11 +15,13 @@ gretty {
     httpPort = Integer.parseInt jetty_port
     contextPath = '/jmp/'
     servletContainer = 'tomcat8'
+
 }
 
 dependencies {
     compile project(':jmp-service')
-    compile project(':jmp-model')
+    testCompile project(':jmp-dao-custom')
+    testCompile project(':jmp-dao-hibernate')
     compile "org.springframework:spring-webmvc:$spring_version",
             "org.springframework:spring-web:$spring_version",
             "org.springframework:spring-context-support:$spring_version",
@@ -31,18 +33,4 @@ dependencies {
             "org.thymeleaf:thymeleaf:$thymeleaf_version",
             "org.thymeleaf:thymeleaf-spring4:$thymeleaf_version",
             "org.thymeleaf.extras:thymeleaf-extras-springsecurity4:$thymeleaf_version"
-}
-
-war {
-    archiveName = 'jmp.war'
-    if (project.hasProperty('deployTomcat')) {
-        if (project.property('deployTomcat') == 'true') {
-            doLast {
-                copy {
-                    from fileTree("${buildDir}/libs") { include('*.war') }
-                    into "${tomcat_home}/webapps/"
-                }
-            }
-        }
-    }
 }

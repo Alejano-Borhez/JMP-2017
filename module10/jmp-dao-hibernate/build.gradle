@@ -1,0 +1,10 @@
+dependencies {
+    compile project(':jmp-dao-api')
+    compile "org.hibernate:hibernate-core:${hibernate_version}"
+    compile "org.hibernate:hibernate-entitymanager:${hibernate_version}"
+    compile "org.springframework:spring-orm:${spring_version}"
+    compile "org.springframework:spring-tx:${spring_version}"
+    compile "org.springframework:spring-context-support:${spring_version}"
+
+    testCompile "org.hsqldb:hsqldb:${hsql_connector_version}"
+}
