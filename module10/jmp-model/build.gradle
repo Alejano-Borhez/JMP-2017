@@ -3,5 +3,5 @@ dependencies {
             "org.hibernate:hibernate-validator:$hibernate_version",
             "org.hibernate:hibernate-validator-cdi:$hibernate_version",
             "org.glassfish:javax.el:$el_version",
-            "javax.persistence:persistence-api:1.0"
+            "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final"
 }

@@ -17,7 +17,10 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -27,21 +30,25 @@ import javax.validation.constraints.Size;
  * Created by alexander_borohov on 9.2.17.
  */
 @OrmTable("tasks")
+@javax.persistence.Entity
 @Table(name = "tasks")
 public class Task implements Entity<Integer> {
 
     @OrmId("task_id")
     @Min(0)
     @Id
-    @Column(name = "user_id")
+    @Column(name = "task_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @OrmField(field = "user_id", dataType = NUMBER)
-    @NotNull
     @Min(0)
-    @Column(name = "user_id", nullable = false)
+    @Transient
     private Integer userId;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @OrmField(field = "task_name", dataType = TEXT)
     @NotNull
@@ -144,6 +151,13 @@ public class Task implements Entity<Integer> {
 
     public void setDeadLine(Date deadLine) {
         this.deadLine = deadLine;
+    }
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

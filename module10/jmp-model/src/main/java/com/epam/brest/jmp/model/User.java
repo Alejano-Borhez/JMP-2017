@@ -7,8 +7,15 @@ import com.epam.brest.jmp.dao.annotations.OrmId;
 import com.epam.brest.jmp.dao.annotations.OrmTable;
 import org.hibernate.validator.constraints.Email;
 
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -18,10 +25,14 @@ import javax.validation.constraints.Size;
  * Created by alexander_borohov on 17.3.17.
  */
 @OrmTable("users")
+@javax.persistence.Entity
+@Table(name = "users")
 public class User implements Entity<Integer> {
 
     @OrmId("user_id")
     @Min(0)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Integer id;
 
@@ -42,6 +53,9 @@ public class User implements Entity<Integer> {
     @Email(regexp = "[a-zA-Z0-9._-]+@[a-zA-Z]+\\.[a-zA-Z]{2,4}")
     @Column(name = "user_email")
     private String email;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<Task> userTasks;
 
     /**
      * Default no-args constructor for Hibernate usage
@@ -85,6 +99,14 @@ public class User implements Entity<Integer> {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Task> getUserTasks() {
+        return userTasks;
+    }
+
+    public void setUserTasks(List<Task> userTasks) {
+        this.userTasks = userTasks;
     }
 
     @Override

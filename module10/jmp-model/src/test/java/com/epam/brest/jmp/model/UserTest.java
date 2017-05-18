@@ -6,11 +6,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by alexander_borohov on 17.3.17.
  */
 public class UserTest {
     private User testUser;
+    private List<Task> tasks;
     private final Integer TEST_USER_ID = 1;
     private final String TEST_USER_NAME = "TestName";
     private final String TEST_USER_SURNAME = "TestSurname";
@@ -19,6 +23,9 @@ public class UserTest {
     @Before
     public void setUp() throws Exception {
         this.testUser = new User();
+        this.tasks = new ArrayList<>();
+        tasks.add(new Task("testDesc", TEST_USER_ID));
+        tasks.add(new Task("testDesc1", TEST_USER_ID));
     }
 
     @After
@@ -50,4 +57,9 @@ public class UserTest {
         assertEquals("Emails are not equal.", TEST_USER_EMAIL, testUser.getEmail());
     }
 
+    @Test
+    public void getTasks() throws Exception {
+        testUser.setUserTasks(tasks);
+        assertEquals("Tasks are different.", tasks, testUser.getUserTasks());
+    }
 }
