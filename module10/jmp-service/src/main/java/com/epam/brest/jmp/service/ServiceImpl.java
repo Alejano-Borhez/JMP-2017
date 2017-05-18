@@ -11,6 +11,8 @@ import com.epam.brest.jmp.model.exceptions.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +23,8 @@ import java.util.List;
  * Created by alexander_borohov on 9.2.17.
  */
 @Service
-@Transactional
+@Scope(proxyMode = ScopedProxyMode.INTERFACES)
+@Transactional(transactionManager = "transactionManagerHibernate")
 public class ServiceImpl implements ServiceFacade {
     private TaskDao taskDao;
     private UserDao userDao;
@@ -43,6 +46,7 @@ public class ServiceImpl implements ServiceFacade {
         assertCorrectTask(task);
         User user = userDao.read(task.getUserId());
         assertCorrectUser(user);
+        task.setUser(user);
         LOGGER.debug("Adding new task: {}", task.getDescription());
         Integer id = null;
         if (!task.getDescription().isEmpty()) {

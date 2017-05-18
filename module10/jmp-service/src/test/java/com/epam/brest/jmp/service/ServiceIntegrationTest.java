@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {ServiceIntegrationTestConfig.class})
-@ActiveProfiles("INTEGRATION")
+@ActiveProfiles({"INTEGRATION", "custom"})
 @Transactional
 public class ServiceIntegrationTest {
     private static final Integer TEST_USER_ID = 1;

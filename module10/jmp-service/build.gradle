@@ -1,9 +1,5 @@
 dependencies {
-    compile project(':jmp-model')
-
-    if (dao == 'hibernate') {
-        compile project(':jmp-dao-hibernate')
-    } else {
-        compile project(':jmp-dao')
-    }
+    compile project(':jmp-dao-api')
+    compile project(':jmp-dao-hibernate')
+    compile project(':jmp-dao-custom')
 }
