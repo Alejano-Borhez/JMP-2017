@@ -35,7 +35,7 @@ import java.util.Map;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestDaoConfig.class)
 @DirtiesContext
-@ActiveProfiles({"MOCK"})
+@ActiveProfiles({"MOCK", "custom"})
 public class UserORMDaoMockTest {
     private static final Integer TEST_USER_ID = 1;
     private static final String TEST_USER_NAME_FIRST = "user1 test name";

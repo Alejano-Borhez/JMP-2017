@@ -35,7 +35,7 @@ import java.util.Date;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestDaoConfig.class)
-@ActiveProfiles("INMEMORY")
+@ActiveProfiles({"INMEMORY", "custom"})
 @Transactional
 public class TaskORMDaoInMemoTest {
     private static final Logger LOGGER = getLogger();

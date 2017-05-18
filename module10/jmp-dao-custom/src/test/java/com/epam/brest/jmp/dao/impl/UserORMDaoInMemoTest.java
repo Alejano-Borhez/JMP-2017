@@ -27,7 +27,7 @@ import java.util.Map;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestDaoConfig.class)
 @Transactional
-@ActiveProfiles("INMEMORY")
+@ActiveProfiles({"INMEMORY", "custom"})
 public class UserORMDaoInMemoTest {
     private static final Integer TEST_USER_ID = 1;
     private static final String TEST_USER_NAME_FIRST = "USER NAME 1";

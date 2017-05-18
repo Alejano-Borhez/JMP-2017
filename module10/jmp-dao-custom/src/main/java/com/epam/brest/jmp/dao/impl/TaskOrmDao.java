@@ -7,6 +7,7 @@ import com.epam.brest.jmp.dao.TaskDao;
 import com.epam.brest.jmp.dao.mapper.EntityRowMapper;
 import com.epam.brest.jmp.model.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.support.KeyHolder;
@@ -21,6 +22,7 @@ import java.util.Objects;
  * Created by alexander_borohov on 17.3.17.
  */
 @Component
+@Profile("custom")
 public class TaskOrmDao implements ObjectRelationalDAO<Task, Integer>, TaskDao {
 
     @Autowired
