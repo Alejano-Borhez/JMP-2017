@@ -56,18 +56,16 @@
                     <a class="nav-link" th:href="@{/users}" th:text="#{users.all}">Items</a>
                 </li>
                 <li th:replace="fragments :: lang-selector"></li>
-
-                <!--<li th:if="${ __${@appConstants.LOGIN}__ != null}" class="nav-item dropdown">
+                <li th:if="${#httpServletRequest.userPrincipal} != null" th:class="nav-item">
                     <a href="#" class="nav-link dropdown-toggle"
                        data-toggle="dropdown" role="button"
-                       th:text="${__${@appConstants.LOGIN}__}">Your login</a>
+                       th:text="${#httpServletRequest.userPrincipal.name}">Your login</a>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item nav-link" th:href="@{/logoutsso}" th:text="#{navbar.logout}">Log Out</a>
+                        <a class="dropdown-item nav-link"
+                           th:href="@{/logout}"
+                           th:text="#{navbar.logout}">Log Out</a>
                     </div>
                 </li>
-                <li class="nav-item" th:if="${__${@appConstants.LOGIN}__ == null}">
-                    <a class="nav-link" th:href="@{/login}" th:text="#{navbar.login}">Log In</a>
-                </li>-->
             </ul>
         </div>
     </div>
@@ -81,6 +79,7 @@
 <div th:fragment="tasks" th:object="${tasks}">
     <!--/*@thymesVar id="tasks" type="java.util.List<com.epam.brest.jmp.model.Task>"*/-->
     <!--/*@thymesVar id="task" type="com.epam.brest.jmp.model.Task"*/-->
+    <!--/*@thymesVar id="user" type="com.epam.brest.jmp.model.User"*/-->
     <table class="table-responsive table-bordered">
         <tr>
             <th th:text="#{tasks.label.id}">Task id</th>
@@ -90,11 +89,12 @@
         </tr>
         <tr th:each="task,row: ${tasks}" th:object="${task}" th:class="${row.odd}? 'odd'">
             <td><a th:text="*{id}"
-                   th:href="@{/user/{userId}/task/{taskId}(userId=*{userId},taskId=*{id})}"></a>
+                   th:href="@{/user/{userId}/task/{taskId}(userId=*{user.id},taskId=*{id})}"></a>
             </td>
             <td th:text="*{name}">Task Name</td>
             <td th:text="*{description}">Task description</td>
-            <td><a th:text="*{userId}" th:href="@{/user/{userId}(userId=*{userId})}">Task Owner</a></td>
+            <td>
+                <a th:text="*{user.name}" th:href="@{/user/{userId}(userId=*{user.id})}">Task Owner</a></td>
         </tr>
     </table>
 </div>

@@ -28,7 +28,7 @@
             </tr>
             <tr>
                 <td th:text="#{tasks.label.owner}"></td>
-                <td><a th:text="${user.name}" th:href="@{/user/{userId}(userId=*{userId})}">Task Owner</a></td>
+                <td><a th:text="*{user.name}" th:href="@{/user/{userId}(userId=*{user.id})}">Task Owner</a></td>
             </tr>
         </table>
     </div>
