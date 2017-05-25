@@ -1,13 +1,3 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        jcenter()
-    }
-    dependencies {
-        classpath "net.saliman:gradle-cobertura-plugin:2.3.2"
-    }
-}
-
 List spring = ["org.springframework:spring-core:$spring_version",
                "org.springframework:spring-beans:$spring_version",
                "org.springframework:spring-context:$spring_version",
@@ -26,7 +16,7 @@ List logging = ["org.apache.logging.log4j:log4j-api:$log4j2_version",
 ]
 
 subprojects {
-    apply plugin: 'net.saliman.cobertura'
+    apply plugin: 'jacoco'
     apply plugin: 'java'
     apply plugin: 'checkstyle'
     apply plugin: 'findbugs'
@@ -52,4 +42,14 @@ subprojects {
         compile test
     }
 
+    jacocoTestReport {
+        reports {
+            xml.enabled true
+            csv.enabled false
+            xml.destination "${buildDir}/reports/jacoco/report.xml"
+            html.destination "${buildDir}/reports/jacoco/html"
+        }
+    }
+
+    build.dependsOn jacocoTestReport
 }
