@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +36,7 @@ import java.util.Date;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestDaoIntegrationConfig.class)
 @Transactional
+@ActiveProfiles("custom")
 public class TaskORMDaoMySqlTest {
     private static final Logger LOGGER = getLogger();
 
@@ -112,7 +114,9 @@ public class TaskORMDaoMySqlTest {
         Collection<Task> tasks = taskDao.readAll();
         assertNotNull(tasks);
         LOGGER.info(tasks);
-        assertEquals(6, tasks.size());
+        for (Task task : tasks) {
+            assertNotNull("Null task!", task);
+        }
     }
 
     @Test
@@ -120,17 +124,22 @@ public class TaskORMDaoMySqlTest {
         Collection<Task> tasks = taskDao.getAllTaskOfAUser(TEST_USER_ID);
         assertNotNull(tasks);
         LOGGER.info(tasks);
-        assertEquals(6, tasks.size());
-
-        Collection<Task> otherTasks = taskDao.getAllTaskOfAUser(TEST_USER_ID + 1);
+        for (Task task : tasks) {
+            assertNotNull("Null task!", task);
+        }
+        Collection<Task> otherTasks = taskDao.getAllTaskOfAUser(TEST_USER_NEW_ID);
         assertNotNull(otherTasks);
-        assertEquals(0, otherTasks.size());
-
+        for (Task task : otherTasks) {
+            assertNotNull("Null task!", task);
+        }
         assertNotNull(taskDao.create(testTaskFourth));
 
         Collection<Task> yetAnotherTasks = taskDao.getAllTaskOfAUser(TEST_USER_NEW_ID);
         assertNotNull(yetAnotherTasks);
-        assertEquals(1, yetAnotherTasks.size());
+        for (Task task : yetAnotherTasks) {
+            assertNotNull("Null task!", task);
+        }
+        assertEquals(otherTasks.size(), yetAnotherTasks.size() - 1);
         LOGGER.info(yetAnotherTasks);
     }
 }

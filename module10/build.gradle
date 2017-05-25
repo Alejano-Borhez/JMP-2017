@@ -1,3 +1,15 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.+"
+    }
+}
+
+
 List spring = ["org.springframework:spring-core:$spring_version",
                "org.springframework:spring-beans:$spring_version",
                "org.springframework:spring-context:$spring_version",
@@ -6,7 +18,11 @@ List spring = ["org.springframework:spring-core:$spring_version",
 
 List test = ["org.springframework:spring-test:$spring_version",
              "junit:junit:$junit_version",
-             "org.easymock:easymock:$easymock_version"]
+             "org.easymock:easymock:$easymock_version",
+             "org.powermock:powermock-core:$powermock_version",
+             "org.powermock:powermock-api-mockito:$powermock_version",
+             "org.powermock:powermock-module-junit4:$powermock_version",
+             "org.powermock:powermock-api-easymock:$powermock_version"]
 
 List jackson = ["com.fasterxml.jackson.core:jackson-databind:$jackson_version"]
 
@@ -20,6 +36,7 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'checkstyle'
     apply plugin: 'findbugs'
+    apply plugin: 'org.sonarqube'
 
     findbugs.ignoreFailures = true
 
