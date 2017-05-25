@@ -22,7 +22,6 @@ public interface HibernateDao<T extends Entity<ID>, ID> extends DAO<T, ID> {
     @Override
     default ID create(T entity) {
         getEntityManager().persist(entity);
-        getEntityManager().flush();
         return entity.getId();
     }
 
@@ -33,16 +32,13 @@ public interface HibernateDao<T extends Entity<ID>, ID> extends DAO<T, ID> {
 
     @Override
     default T update(T entity) {
-        T entityUpdated = getEntityManager().merge(entity);
-        getEntityManager().flush();
-        return entityUpdated;
+        return getEntityManager().merge(entity);
     }
 
     @Override
     default Boolean delete(ID id) {
         try {
             getEntityManager().remove(read(id));
-            getEntityManager().flush();
             return true;
         } catch (Exception e) {
             return false;
@@ -64,7 +60,6 @@ public interface HibernateDao<T extends Entity<ID>, ID> extends DAO<T, ID> {
         CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
         CriteriaDelete<T> delete = builder.createCriteriaDelete(entityType());
         Query deleteQuery = getEntityManager().createQuery(delete);
-        getEntityManager().flush();
         return deleteQuery.executeUpdate() >= 0;
     }
 

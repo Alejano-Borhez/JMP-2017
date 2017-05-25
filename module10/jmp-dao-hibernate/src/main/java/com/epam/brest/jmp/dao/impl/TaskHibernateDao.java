@@ -25,7 +25,6 @@ public class TaskHibernateDao implements HibernateDao<Task, Integer>, TaskDao {
 
     @Override
     public Collection<Task> getAllTaskOfAUser(Integer userId) {
-        entityManager.flush();
         return entityManager.find(User.class, userId).getUserTasks();
     }
 
@@ -46,7 +45,6 @@ public class TaskHibernateDao implements HibernateDao<Task, Integer>, TaskDao {
         tasks.add(entity);
         getEntityManager().persist(user);
         getEntityManager().persist(entity);
-        getEntityManager().flush();
         return entity.getId();
     }
 }
