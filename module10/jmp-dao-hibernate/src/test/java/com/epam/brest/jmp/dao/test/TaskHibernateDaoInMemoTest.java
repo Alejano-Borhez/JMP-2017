@@ -2,6 +2,7 @@ package com.epam.brest.jmp.dao.test;
 
 import static org.apache.logging.log4j.LogManager.getLogger;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -98,6 +99,16 @@ public class TaskHibernateDaoInMemoTest {
             assertEquals(format("Problem in DAO with: %d, while performing: not found by ID", TEST_TASK_ID),
                     e.getMessage());
         }
+    }
+
+    @Test (expected = UnsupportedOperationException.class)
+    public void deleteAllTest() throws Exception {
+        Collection<Task> allTasksBefore = taskDao.readAll();
+        assertFalse(allTasksBefore.isEmpty());
+
+        taskDao.deleteAll();
+        Collection<Task> allTasksAfter = taskDao.readAll();
+        assertTrue(allTasksAfter.isEmpty());
     }
 
     @Test

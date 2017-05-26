@@ -22,7 +22,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -51,13 +50,11 @@ public class Task implements Entity<Integer> {
     private User user;
 
     @OrmField(field = "task_name", dataType = TEXT)
-    @NotNull
     @Size(min = 3, max = 256)
     @Column(name = "task_name")
     private String name;
 
     @OrmField(field = "task_desc", dataType = TEXT)
-    @NotNull
     @Size(min = 3, max = 256)
     @Column(name = "task_desc")
     private String description;
@@ -105,10 +102,12 @@ public class Task implements Entity<Integer> {
         this.userId = userId;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
@@ -152,6 +151,7 @@ public class Task implements Entity<Integer> {
     public void setDeadLine(Date deadLine) {
         this.deadLine = deadLine;
     }
+
     public User getUser() {
         return user;
     }
@@ -162,8 +162,12 @@ public class Task implements Entity<Integer> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Task task = (Task) o;
         return Objects.equals(getId(), task.getId()) &&
                 Objects.equals(getUserId(), task.getUserId()) &&

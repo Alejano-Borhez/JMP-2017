@@ -17,7 +17,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -37,19 +36,16 @@ public class User implements Entity<Integer> {
     private Integer id;
 
     @OrmField(field = "user_name", dataType = TEXT)
-    @NotNull
     @Size(min = 3, max = 256)
     @Column(name = "user_name")
     private String name;
 
     @OrmField(field = "user_surname", dataType = TEXT)
-    @NotNull
     @Size(min = 3, max = 256)
     @Column(name = "user_surname")
     private String surname;
 
     @OrmField(field = "user_email", dataType = TEXT)
-    @NotNull
     @Email(regexp = "[a-zA-Z0-9._-]+@[a-zA-Z]+\\.[a-zA-Z]{2,4}")
     @Column(name = "user_email")
     private String email;
@@ -69,10 +65,12 @@ public class User implements Entity<Integer> {
         this.email = email;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
@@ -121,8 +119,12 @@ public class User implements Entity<Integer> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         User user = (User) o;
         return Objects.equals(getId(), user.getId()) &&
                 Objects.equals(getName(), user.getName()) &&

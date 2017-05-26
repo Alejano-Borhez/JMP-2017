@@ -4,10 +4,8 @@ import com.epam.brest.jmp.model.Entity;
 
 import java.util.Collection;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -57,10 +55,7 @@ public interface HibernateDao<T extends Entity<ID>, ID> extends DAO<T, ID> {
 
     @Override
     default Boolean deleteAll() {
-        CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
-        CriteriaDelete<T> delete = builder.createCriteriaDelete(entityType());
-        Query deleteQuery = getEntityManager().createQuery(delete);
-        return deleteQuery.executeUpdate() >= 0;
+        throw new UnsupportedOperationException("Cannot perform truncation of " + getClass().getName());
     }
 
     @Override

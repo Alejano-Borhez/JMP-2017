@@ -1,5 +1,6 @@
 package com.epam.brest.jmp.service;
 
+import static org.easymock.EasyMock.anyInt;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.reset;
@@ -28,7 +29,7 @@ import java.util.List;
 
 /**
  * Unit tests with mocked {@link DAO}'s
- *
+ * <p>
  * Created by alexander_borohov on 10.2.17.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -42,11 +43,14 @@ public class ServiceImplMockTest {
     private UserDao userMockDao;
 
     @Autowired
-    private ServiceFacade taskService;
+    private ServiceFacade serviceFacade;
 
     private User testUser;
+    private Task testTask;
     @Autowired
     private List<Task> tasks;
+    @Autowired
+    private List<User> users;
     private final Integer TEST_USER_ID = 1;
     private final Integer TEST_TASK_ID_FIRST = 1;
     private final Integer TEST_TASK_ID = 4;
@@ -58,6 +62,8 @@ public class ServiceImplMockTest {
     @Before
     public void setUp() throws Exception {
         testUser = new User(TEST_USER_NAME, TEST_USER_SURNAME, TEST_USER_EMAIL);
+        testUser.setId(TEST_USER_ID);
+        testTask = new Task(TEST_TASK_DESC_FIRST, TEST_USER_ID);
     }
 
     @After
@@ -72,7 +78,7 @@ public class ServiceImplMockTest {
         expect(userMockDao.read(TEST_USER_ID)).andReturn(testUser);
         expect(taskMockDao.create(testTaskFirst)).andReturn(TEST_TASK_ID);
         replay(taskMockDao, userMockDao);
-        Integer id = taskService.addNewTask(testTaskFirst);
+        Integer id = serviceFacade.addNewTask(testTaskFirst);
         assertEquals("Ids are not equal", id, TEST_TASK_ID);
     }
 
@@ -80,8 +86,7 @@ public class ServiceImplMockTest {
     public void showAllTasks() throws Exception {
         expect(taskMockDao.readAll()).andReturn(tasks);
         replay(taskMockDao, userMockDao);
-
-        List<Task> testTasks = taskService.showAllTasks();
+        List<Task> testTasks = serviceFacade.showAllTasks();
         assertEquals("Lists are not equal", tasks, testTasks);
     }
 
@@ -89,48 +94,87 @@ public class ServiceImplMockTest {
     public void removeSpecificTask() throws Exception {
         expect(taskMockDao.delete(TEST_TASK_ID_FIRST)).andReturn(true);
         replay(taskMockDao, userMockDao);
-
-        assertTrue("Not deleted!", taskService.removeSpecificTask(TEST_TASK_ID_FIRST));
+        assertTrue("Not deleted!", serviceFacade.removeSpecificTask(TEST_TASK_ID_FIRST));
     }
 
     @Test(expected = ServiceException.class)
     public void removeSpecificTaskFailMinusOne() throws Exception {
         expect(taskMockDao.delete(-1)).andThrow(new AssertionError("Dao was called")).anyTimes();
         replay(taskMockDao, userMockDao);
-        taskService.removeSpecificTask(-1);
+        serviceFacade.removeSpecificTask(-1);
     }
 
     @Test(expected = ServiceException.class)
     public void removeSpecificTaskFailNull() throws Exception {
         expect(taskMockDao.delete(null)).andThrow(new AssertionError("Dao was called")).anyTimes();
         replay(taskMockDao, userMockDao);
-        taskService.removeSpecificTask(null);
+        serviceFacade.removeSpecificTask(null);
     }
 
     @Test
     public void removeAllTasks() throws Exception {
         expect(taskMockDao.deleteAll()).andReturn(true);
         replay(taskMockDao, userMockDao);
-
-        assertTrue("All were not deleted", taskService.removeAllTasks());
+        assertTrue("All were not deleted", serviceFacade.removeAllTasks());
     }
 
     @Test
     public void getUserTest() throws Exception {
         expect(userMockDao.read(TEST_USER_ID)).andReturn(testUser);
         replay(userMockDao, taskMockDao);
-
-        assertEquals("Different users!", testUser, taskService.getUserById(TEST_USER_ID));
+        assertEquals("Different users!", testUser, serviceFacade.getUserById(TEST_USER_ID));
     }
 
     @Test
     public void getTaskOwnerTest() throws Exception {
         expect(taskMockDao.read(TEST_TASK_ID_FIRST)).andReturn(tasks.get(0));
         expect(userMockDao.read(tasks.get(0).getUserId())).andReturn(testUser);
-
         replay(taskMockDao, userMockDao);
+        assertEquals("Different users!", testUser, serviceFacade.getTaskOwner(TEST_USER_ID));
+    }
 
-        assertEquals("Different users!", testUser, taskService.getTaskOwner(TEST_USER_ID));
+    @Test
+    public void getAllTasksOfAUser() throws Exception {
+        expect(taskMockDao.getAllTaskOfAUser(TEST_USER_ID)).andReturn(tasks);
+        replay(taskMockDao, userMockDao);
+        assertEquals(tasks, serviceFacade.getAllTaskOfAUser(TEST_USER_ID));
+    }
 
+    @Test
+    public void updateTaskTest() throws Exception {
+        expect(taskMockDao.update(testTask)).andReturn(testTask);
+        replay(taskMockDao, userMockDao);
+        assertEquals(testTask, serviceFacade.updateTask(testTask));
+    }
+
+    @Test
+    public void showAllUsers() throws Exception {
+        expect(userMockDao.readAll()).andReturn(users);
+        replay(taskMockDao, userMockDao);
+        assertEquals(users, serviceFacade.showAllUsers());
+    }
+
+    @Test
+    public void removeSpecificUsers() throws Exception {
+        expect(userMockDao.delete(TEST_USER_ID)).andReturn(true);
+        expect(taskMockDao.getAllTaskOfAUser(TEST_USER_ID)).andReturn(tasks);
+        expect(taskMockDao.delete(anyInt())).andReturn(true).times(tasks.size());
+        replay(taskMockDao, userMockDao);
+        assertTrue(serviceFacade.removeSpecificUser(TEST_USER_ID));
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void removeAllUsersAndTasks() throws Exception {
+        expect(userMockDao.deleteAll()).andThrow(new UnsupportedOperationException());
+        replay(taskMockDao, userMockDao);
+        serviceFacade.removeAllUsers();
+    }
+
+    @Test
+    public void updateUserTest() throws Exception {
+        expect(userMockDao.read(TEST_USER_ID)).andReturn(testUser);
+        expect(userMockDao.update(testUser)).andReturn(testUser);
+        replay(taskMockDao, userMockDao);
+        assertEquals(testUser, serviceFacade.updateUser(testUser));
     }
 }

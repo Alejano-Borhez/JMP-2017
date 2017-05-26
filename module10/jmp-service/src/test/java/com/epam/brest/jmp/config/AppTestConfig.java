@@ -3,6 +3,7 @@ package com.epam.brest.jmp.config;
 import com.epam.brest.jmp.dao.TaskDao;
 import com.epam.brest.jmp.dao.UserDao;
 import com.epam.brest.jmp.model.Task;
+import com.epam.brest.jmp.model.User;
 import org.easymock.EasyMock;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -53,5 +54,18 @@ public class AppTestConfig {
         tasks.add(testTaskThird);
 
         return tasks;
+    }
+    @Bean
+    public List<User> users() {
+        User testUserFirst = new User("UserName1", "UserSurname1", "email@email1.com");
+        User testUserSecond = new User("UserName2", "UserSurname2", "email@email2.com");
+        User testUserThird = new User("UserName3", "UserSurname3", "email@email3.com");
+
+        List<User> users = new ArrayList<>();
+        users.add(testUserFirst);
+        users.add(testUserSecond);
+        users.add(testUserThird);
+
+        return users;
     }
 }

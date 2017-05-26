@@ -17,6 +17,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -89,5 +90,14 @@ public class UserHibernateDaoInMemoTest {
         assertNull(testUser);
         assertTrue(result);
         assertFalse(userDao.delete(newId));
+    }
+
+    @Test (expected = UnsupportedOperationException.class)
+    public void deleteAllUsersTest() throws Exception {
+        Collection<User> allUsersBefore = userDao.readAll();
+        assertTrue(userDao.deleteAll());
+        assertFalse(allUsersBefore.isEmpty());
+        Collection<User> allUsersAfter = userDao.readAll();
+        assertTrue(allUsersAfter.isEmpty());
     }
 }
