@@ -11,6 +11,7 @@ import com.epam.brest.jmp.model.exceptions.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ import java.util.List;
 @Service
 @Scope(proxyMode = ScopedProxyMode.INTERFACES)
 @Transactional(transactionManager = "transactionManagerHibernate")
+@Profile({"custom", "hibernate"})
 public class ServiceImpl implements ServiceFacade {
     private TaskDao taskDao;
     private UserDao userDao;
@@ -141,6 +143,21 @@ public class ServiceImpl implements ServiceFacade {
         User user = userDao.read(id);
         assertCorrectUser(user);
         return user;
+    }
+
+    @Override
+    public Task getUsersTask(Integer userId, Integer taskId) {
+        assertCorrectId(userId);
+        assertCorrectId(taskId);
+        User user = userDao.read(userId);
+        assertCorrectUser(user);
+        for (Task task: user.getUserTasks()) {
+            if (taskId.equals(task.getId())) {
+                assertCorrectTask(task);
+                return task;
+            }
+        }
+        throw new ServiceException(user, "User " + userId + " doesn't own a task #" + taskId);
     }
 
     @Override

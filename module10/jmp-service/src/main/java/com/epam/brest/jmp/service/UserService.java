@@ -1,7 +1,6 @@
 package com.epam.brest.jmp.service;
 
 import com.epam.brest.jmp.dao.DAO;
-import com.epam.brest.jmp.model.Task;
 import com.epam.brest.jmp.model.User;
 import com.epam.brest.jmp.model.exceptions.ServiceException;
 
@@ -48,13 +47,6 @@ public interface UserService {
      * @return Task with id or {@link ServiceException} is thrown
      */
     User getUserById(Integer id);
-
-    /**
-     * Method returns a {@link User} owner of particular {@link Task}
-     * @param id - {@link User#id} of a owner
-     * @return owner of a Task
-     */
-    User getTaskOwner(Integer id);
 
     /**
      * Updates a user

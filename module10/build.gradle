@@ -68,5 +68,9 @@ subprojects {
         }
     }
 
+    File testResultsDir = project.test.reports.junitXml.destination
+    properties["sonar.surefire.reportsPath"] = testResultsDir.exists() ? testResultsDir : null
+    properties["sonar.junit.reportsPath"] = testResultsDir.exists() ? testResultsDir : null
+
     build.dependsOn jacocoTestReport
 }

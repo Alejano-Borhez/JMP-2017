@@ -1,14 +1,10 @@
-package com.epam.brest.jmp.config;
+package com.epam.brest.jmp.web.config;
 
-import com.epam.brest.jmp.dao.TaskDao;
-import com.epam.brest.jmp.dao.UserDao;
 import com.epam.brest.jmp.model.Task;
 import com.epam.brest.jmp.model.User;
 import com.epam.brest.jmp.service.ServiceFacade;
-import com.epam.brest.jmp.service.ServiceImpl;
 import org.easymock.EasyMock;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
@@ -16,29 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Used for Java-based Spring configuration
- * Created by alexander_borohov on 22.3.17.
+ * Created by alexander_borohov on 29.5.17.
  */
 @Configuration
-@ComponentScan(basePackages = {"com.epam.brest.jmp.service"})
-@Profile("MOCK")
-public class AppTestConfig {
+@Profile("mock")
+public class WebAppMockBeansConfig {
     @Bean
-    public UserDao userDaoMock() {
-        return EasyMock.createMock(UserDao.class);
-    }
-
-    @Bean
-    public TaskDao taskDaoMock() {
-        return EasyMock.createMock(TaskDao.class);
-    }
-
-    @Bean
-    public ServiceFacade serviceFacade() {
-        ServiceImpl serviceFacade = new ServiceImpl();
-        serviceFacade.setTaskDao(taskDaoMock());
-        serviceFacade.setUserDao(userDaoMock());
-        return serviceFacade;
+    ServiceFacade serviceFacade() {
+        return EasyMock.createMock(ServiceFacade.class);
     }
 
     @Bean
@@ -57,7 +38,9 @@ public class AppTestConfig {
         testTaskFirst.setId(TEST_TASK_ID_FIRST);
         testTaskSecond.setId(TEST_TASK_ID_SECOND);
         testTaskThird.setId(TEST_TASK_ID_THIRD);
-
+        testTaskFirst.setUser(users().get(0));
+        testTaskSecond.setUser(users().get(0));
+        testTaskThird.setUser(users().get(0));
         List<Task> tasks = new ArrayList<>();
         tasks.add(testTaskFirst);
         tasks.add(testTaskSecond);

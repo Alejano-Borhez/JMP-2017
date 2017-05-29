@@ -5,6 +5,7 @@ import static com.epam.brest.jmp.dao.annotations.OrmField.DataType.TEXT;
 import com.epam.brest.jmp.dao.annotations.OrmField;
 import com.epam.brest.jmp.dao.annotations.OrmId;
 import com.epam.brest.jmp.dao.annotations.OrmTable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Email;
 
 import java.util.List;
@@ -51,6 +52,7 @@ public class User implements Entity<Integer> {
     private String email;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Task> userTasks;
 
     /**

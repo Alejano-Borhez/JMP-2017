@@ -41,7 +41,6 @@ public class ServiceImplMockTest {
     private TaskDao taskMockDao;
     @Autowired
     private UserDao userMockDao;
-
     @Autowired
     private ServiceFacade serviceFacade;
 
@@ -63,6 +62,7 @@ public class ServiceImplMockTest {
     public void setUp() throws Exception {
         testUser = new User(TEST_USER_NAME, TEST_USER_SURNAME, TEST_USER_EMAIL);
         testUser.setId(TEST_USER_ID);
+        testUser.setUserTasks(tasks);
         testTask = new Task(TEST_TASK_DESC_FIRST, TEST_USER_ID);
     }
 
@@ -176,5 +176,13 @@ public class ServiceImplMockTest {
         expect(userMockDao.update(testUser)).andReturn(testUser);
         replay(taskMockDao, userMockDao);
         assertEquals(testUser, serviceFacade.updateUser(testUser));
+    }
+
+    @Test
+    public void getUsersTaskTest() throws Exception {
+        testTask.setId(TEST_TASK_ID_FIRST);
+        expect(userMockDao.read(TEST_USER_ID)).andReturn(testUser);
+        replay(taskMockDao, userMockDao);
+        assertEquals(serviceFacade.getUsersTask(TEST_USER_ID, TEST_TASK_ID_FIRST), testTask);
     }
 }
