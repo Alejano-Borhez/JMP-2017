@@ -23,6 +23,19 @@ public class NewPoint {
         return b;
     }
 
+    public void setA(final Double a) {
+        this.a = a;
+    }
+
+    public void setB(final Double b) {
+        this.b = b;
+    }
+
+    public NewPoint(Point point) {
+        this.a = point.getX();
+        this.b = point.getY();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
