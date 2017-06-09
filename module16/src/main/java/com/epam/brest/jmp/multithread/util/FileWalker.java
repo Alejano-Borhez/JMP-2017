@@ -1,5 +1,7 @@
 package com.epam.brest.jmp.multithread.util;
 
+import static java.lang.System.currentTimeMillis;
+
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
@@ -56,18 +58,36 @@ public class FileWalker implements Runnable {
         System.out.println("Began with " + pathToScan.toAbsolutePath().toString());
         while (!Thread.currentThread().isInterrupted()) {
             try {
-                long filesInside = Files.walk(pathToScan).filter(Files::isReadable).count();
+                long begin, end;
+                boolean isParallel = false;
 
+                begin = currentTimeMillis();
+                long filesInside = Files.walk(pathToScan).filter(Files::isReadable).count();
                 if (filesInside > 1000) {
+                    isParallel = true;
                     Files.walk(pathToScan).parallel()
                             .forEach(filesDirsCounter());
+                    end = currentTimeMillis() - begin;
                 } else {
                     Files.walk(pathToScan)
                             .forEach(filesDirsCounter());
+                    end = currentTimeMillis() - begin;
                 }
 
                 System.out.println("\r");
-                System.out.println("Ended");
+                System.out.println("Forked mode ended in " + end + "mSeconds" + ((isParallel)? "in parallel mode": "in single stream mode"));
+
+                this.filesCount = new AtomicInteger(0);
+                this.dirsCount = new AtomicInteger(0);
+                this.totalSize = 0;
+
+                begin = currentTimeMillis();
+                Files.walk(pathToScan)
+                        .forEach(filesDirsCounter());
+                end = currentTimeMillis() - begin;
+
+                System.out.println("Straight mode ended in " + end + "mSeconds" + ((isParallel)? "in parallel mode": "in single stream mode"));
+
                 this.isAlive = false;
                 Thread.currentThread().interrupt();
             } catch (IOException e) {
@@ -85,11 +105,6 @@ public class FileWalker implements Runnable {
                         filesCount.getAndIncrement();
                         totalSize = totalSize + path.toFile().length() / 1024;
                     }
-                }
-                try {
-                    Thread.sleep(3);
-                } catch (InterruptedException e) {
-                    System.out.println("e = " + e.getMessage());
                 }
             };
         } catch (UncheckedIOException e) {
