@@ -22,7 +22,8 @@ Use the following GC configurations:
 -jar target/module17-0.0.1-SNAPSHOT.jar
 ```
 ### Resulting JvisualVM monitoring:
-![Case 1](/module17/report/1 Case.png)
+![1 Case](../module17/report/1%20Case.png)
+
 2. Parallel Collector with the following parameters:
  * the 3m initial heap size for when the JVM starts
  * the12m maximum heap size
@@ -37,7 +38,9 @@ Use the following GC configurations:
 -XX:+UseParallelGC -XX:-UseParallelOldGC \
 -jar target/module17-0.0.1-SNAPSHOT.jar
 ```
-![Case 2](/module17/report/2 Case.png)
+### Resulting JvisualVM monitoring:
+![Case 2](../module17/report/2%20Case.png)
+
 3. Parallel Old Collector with the following parameters:
  * the 9m initial heap size for when the JVM starts
  * the 18m maximum heap size
@@ -51,7 +54,9 @@ Use the following GC configurations:
  -XX:+UseParallelGC -XX:+UseParallelOldGC \
  -jar target/module17-0.0.1-SNAPSHOT.jar
  ```
-![Case 3](/module17/report/3 Case.png)
+### Resulting JvisualVM monitoring:
+![Case 3](../module17/report/3%20Case.png)
+
 4. Concurrent Mark Sweep (CMS) Collector with 2 Parallel CMS Threads with the following parameters:
  * the 6m initial heap size for when the JVM starts
  * the18m maximum heap size
@@ -65,7 +70,9 @@ Use the following GC configurations:
 -XX:+UseConcMarkSweepGC \
 -jar target/module17-0.0.1-SNAPSHOT.jar
 ```
-![Case 4](/module17/report/4 Case.png)
+### Resulting JvisualVM monitoring:
+![Case 4](../module17/report/4%20Case.png)
+
 5. G1 Garbage Collector with the following parameters:
  * the 4m initial heap size for when the JVM starts
  * the 16m maximum heap size
@@ -78,12 +85,14 @@ Use the following GC configurations:
 -XX:NewSize=2m -XX:MaxNewSize=2m \
 -jar target/module17-0.0.1-SNAPSHOT.jar
 ```
-![Case 5](/module17/report/5 Case.png)
+### Resulting JvisualVM monitoring:
+![Case 5](../module17/report/5%20Case.png)
 
+###Special Cases:
 
-![Case No GC opts](/module17/report/No GC opts.png)
+![Case No GC opts](../module17/report/No%20GC%20opts.png)
 
-![Case No Memory opts](/module17/report/No Memory opts Case.png)
+![Case No Memory opts](../module17/report/No%20Memory%20opts%20Case.png)
 
 What should we get in result in repository:
  * Source code of the program README file with all GC command line configuration parameters
