@@ -181,8 +181,9 @@ public class MongoApp {
         logger.info("2. List all files owned by you");
         logger.info("3. List all files ");
         logger.info("4. List all expired files ");
-        logger.info("5. Download file");
-        logger.info("6. Go back");
+        logger.info("5. List all files ordered by downloaded times desc");
+        logger.info("6. Download file");
+        logger.info("7. Go back");
         input = SCANNER.nextLine();
         try {
             int choice = Integer.parseInt(input);
@@ -210,18 +211,21 @@ public class MongoApp {
                 listAllExpiredFiles();
                 break;
             case 5:
+                listOrderedByDownloadFiles();
+                break;
+            case 6:
                 downloadFile();
                 break;
             default:
                 break;
         }
+
     }
 
     private void listAllFilesOwned() {
         logger.info("List of files of a user {}:", currentUser.getName());
         dao.readAllFilesOfAUser(currentUser.getId()).forEach(file -> logger.info("{}", file));
     }
-
     private void listAllFiles() {
         logger.info("List of all available files: ");
         dao.readAllFiles().forEach(file -> {
@@ -233,6 +237,14 @@ public class MongoApp {
     private void listAllExpiredFiles() {
         logger.info("List of expired files only: ");
         dao.readExpiredFiles().forEach(file -> {
+            User owner = dao.getFileOwner(file.getId());
+            logger.info("File: {}, Owner: {}", file, owner.getName());
+        });
+    }
+
+    private void listOrderedByDownloadFiles() {
+        logger.info("List of files ordered by downloaded times desc:");
+        dao.listFilesDownloadTimesDescending().forEach(file -> {
             User owner = dao.getFileOwner(file.getId());
             logger.info("File: {}, Owner: {}", file, owner.getName());
         });

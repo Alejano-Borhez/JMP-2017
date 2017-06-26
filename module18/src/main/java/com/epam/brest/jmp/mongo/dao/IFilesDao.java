@@ -20,4 +20,5 @@ public interface IFilesDao {
     Set<File> readAllFilesOfAUser(String userId);
 
     List<File> readAllFilesByName(String fileName);
+    List<File> listFilesDownloadTimesDescending();
 }

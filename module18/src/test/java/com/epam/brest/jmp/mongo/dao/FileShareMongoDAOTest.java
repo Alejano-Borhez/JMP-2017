@@ -271,5 +271,33 @@ public class FileShareMongoDAOTest {
         assertEquals(6, dao.countTotalDownloads());
     }
 
+    @Test
+    public void listFilesDescendingDownoloadedTimes() throws Exception {
+        File one = new File("File 1");
+        File two = new File("File 2");
+        File three = new File("File 3");
 
+        dao.createFile(one);
+        dao.createFile(two);
+        dao.createFile(three);
+
+        dao.downloadFile(one.getId());
+        dao.downloadFile(one.getId());
+        dao.downloadFile(one.getId());
+
+        dao.downloadFile(two.getId());
+        dao.downloadFile(two.getId());
+        dao.downloadFile(two.getId());
+        dao.downloadFile(two.getId());
+
+        dao.downloadFile(three.getId());
+        dao.downloadFile(three.getId());
+
+        List<File> orderedList = dao.listFilesDownloadTimesDescending();
+
+        assertEquals(orderedList.get(0), two);
+        assertEquals(orderedList.get(1), one);
+        assertEquals(orderedList.get(2), three);
+
+    }
 }

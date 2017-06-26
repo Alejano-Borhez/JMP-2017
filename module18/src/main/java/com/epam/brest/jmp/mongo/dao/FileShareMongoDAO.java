@@ -1,5 +1,6 @@
 package com.epam.brest.jmp.mongo.dao;
 
+import static org.mongodb.morphia.query.Sort.descending;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 import com.epam.brest.jmp.mongo.model.File;
@@ -124,6 +125,13 @@ public class FileShareMongoDAO implements IFilesDao, IUsersDao, IAggregateDao {
     @Override
     public List<File> readAllFilesByName(String fileName) {
         return datastore.createQuery(File.class).field("fileName").equal(fileName).asList();
+    }
+
+    @Override
+    public List<File> listFilesDownloadTimesDescending() {
+        return datastore.createQuery(File.class)
+                .order(descending("times_downloaded"))
+                .asList();
     }
 
     @Override
